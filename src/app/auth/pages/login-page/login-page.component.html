@@ -1,0 +1,21 @@
+<form [formGroup]="myForm" (ngSubmit)="onLogin()">
+  <input
+    class="w-full border rounded-lg text-gray-700 p-4 my-4 pe-12 text-sm shadow-sm"
+    type="text"
+    placeholder="Username"
+    formControlName="username"
+  />
+
+  <input
+    class="w-full border rounded-lg text-gray-700 p-4 my-4 pe-12 text-sm shadow-sm"
+    type="password"
+    placeholder="Password"
+    formControlName="password"
+  />
+  <button
+    type="submit"
+    class="block w-full rounded-lg mt-4 px-5 py-3 text-sm font-medium text-white bg-monza-500 hover:bg-monza-600 active:bg-monza-700"
+  >
+    Login
+  </button>
+</form>

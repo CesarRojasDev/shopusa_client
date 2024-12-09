@@ -1,0 +1,116 @@
+<div class="h-screen flex items-center justify-center">
+  <form [formGroup]="myForm" (ngSubmit)="onSave()">
+    <div class="bg-white p-8 rounded-lg shadow-md border dark:border-gray-700">
+      <h1 class="text-2xl font-semibold text-center text-gray-800 py-6 mb-4">
+        Registrar producto
+      </h1>
+      <div class="mb-6">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-gray-700 mb-1">Nombre</label>
+            <input
+              type="text"
+              class="w-full rounded-lg border py-2 px-3 dark:border-none"
+              formControlName="nombre"
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-1">SubCategoria</label>
+            <select
+              formControlName="subCategoriaId"
+              class="w-full rounded-lg border py-2 px-3 dark:border-none"
+            >
+              <option value="" disabled selected>
+                Seleccione una subcategoria
+              </option>
+              <option
+                *ngFor="let subcategoria of subCategorias"
+                [value]="subcategoria.id"
+              >
+                {{ subcategoria.nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-4">
+          <label class="block text-gray-700 mb-1">Descripcion</label>
+          <input
+            type="text"
+            class="w-full rounded-lg border py-2 px-3"
+            formControlName="descripcion"
+          />
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div>
+            <label class="block text-gray-700 mb-1">Marca</label>
+            <input
+              type="text"
+              class="w-full rounded-lg border py-2 px-3"
+              formControlName="marca"
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-1">Modelo</label>
+            <input
+              type="text"
+              class="w-full rounded-lg border py-2 px-3"
+              formControlName="modelo"
+            />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div>
+            <label class="block text-gray-700 mb-1">Caracteristica</label>
+            <input
+              type="text"
+              class="w-full rounded-lg border py-2 px-3"
+              formControlName="caracteristica"
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-1">Precio USD</label>
+            <input
+              type="number"
+              class="w-full rounded-lg border py-2 px-3"
+              formControlName="precioUSD"
+            />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div>
+            <label class="block text-gray-700 mb-1">Color</label>
+            <input
+              type="text"
+              class="w-full rounded-lg border py-2 px-3"
+              formControlName="color"
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-1">SKU</label>
+            <input
+              type="text"
+              class="w-full rounded-lg border py-2 px-3"
+              formControlName="sku"
+            />
+          </div>
+        </div>
+        <div class="mt-4">
+          <label class="block text-gray-700 mb-1">Link</label>
+          <input
+            type="text"
+            class="w-full rounded-lg border py-2 px-3"
+            formControlName="link"
+          />
+        </div>
+      </div>
+      <div class="mt-8 flex justify-end">
+        <button
+          class="bg-monza-500 text-white px-4 py-2 rounded-lg hover:bg-monza-600 active:bg-monza-700 w-full sm:w-auto"
+          type="submit"
+        >
+          Registrar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,85 @@
+
+<div class="text-center mt-24">
+  <h1
+    class="text-4xl md:text-3xl font-bold text-blue-gray-900 hover:scale-110 transition ease-in-out"
+  >
+    PRODUCTOS SHOPUSA
+  </h1>
+  <p class="text-lg opacity-60 text-astronaut-950 mt-4">
+    Inventario actualizado 02-12-2024
+  </p>
+</div>
+
+<!-- Ajuste del grid y eliminación del overflow horizontal -->
+<div class="flex justify-center mt-6 items-center p-6 overflow-x-hidden">
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl w-full"
+  >
+    <div
+      *ngFor="let product of products"
+      class="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-full"
+    >
+      <!-- Imagen del producto -->
+      <div
+        class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-full"
+        [routerLink]="['/shopusa/productos/detalle', product.sku]"
+      >
+        <img
+          [src]="product.imagenesUrls[0]"
+          alt="{{ product.nombre }}"
+          class="hover:scale-110 transition ease-in-out"
+        />
+      </div>
+      <!-- Contenido del producto -->
+      <div
+        class="p-6 flex-grow bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
+      >
+        <div class="flex items-start justify-between mb-4">
+          <!-- Título del producto -->
+          <p
+            class="block font-sans text-lg md:text-xl font-semibold leading-tight text-gray-900"
+          >
+            {{ product.nombre }}
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <!-- Precio en USD -->
+          <p
+            class="block font-sans text-lg md:text-xl font-semibold leading-relaxed text-green-600"
+          >
+            ${{ product.precioUSD }}
+          </p>
+          <!-- Precio en Soles (si se aplica) -->
+          <p
+            class="block font-sans text-md md:text-lg font-semibold leading-relaxed text-gray-500"
+          >
+            S/ {{ product.precioSoles }}
+          </p>
+        </div>
+
+        <p
+          class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80 mb-2"
+        >
+          <span class="font-semibold">Color:</span> {{ product.color }}
+        </p>
+
+        <p
+          class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80"
+        >
+          <span class="font-semibold">SKU:</span> {{ product.sku }}
+        </p>
+        <!-- Botón al final -->
+        <div class="mt-8">
+          <a
+            [href]="product.link"
+            target="_blank"
+            class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg text-white bg-monza-500 hover:bg-monza-600 active:bg-monza-700 block w-full"
+          >
+            View on Amazon
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<ng-template #loading>
+  <div class="h-screen flex items-center justify-center text-lg text-gray-500">
+    Cargando información del producto...
+  </div>
+</ng-template>
+
+<div *ngIf="product; else loading">
+  <div class="container mx-auto px-4 sm:px-8 lg:px-16">
+    <div class="flex flex-wrap -mx-4">
+      <!-- Product Images -->
+      <div class="w-full md:w-1/2 px-4 mb-8">
+        <div class="relative rounded-lg overflow-hidden shadow-md">
+          <img
+            [src]="imageSelected || product.imagenesUrls[0]"
+            [alt]="product.nombre"
+            class="w-full h-auto transition-transform duration-500 ease-in-out transform hover:scale-105"
+          />
+        </div>
+        <div class="flex gap-4 py-4 justify-center overflow-x-auto mt-4">
+          <ng-container *ngFor="let imageUrl of product.imagenesUrls; let i = index">
+            <img
+              [src]="imageUrl"
+              [alt]="'Imagen ' + (i + 1)"
+              (click)="changeImage(imageUrl)"
+              class="w-20 h-20 sm:w-28 sm:h-28 object-cover rounded-md cursor-pointer opacity-70 hover:opacity-100 transition-opacity duration-300 transform hover:scale-110 border-2 border-transparent hover:border-gray-300"
+            />
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Product Details -->
+      <div class="w-full md:w-1/2 px-4">
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">
+          {{ product.nombre }}
+        </h1>
+        <p class="text-gray-500 mb-2">
+          SKU: <span class="font-medium">{{ product.sku }}</span>
+        </p>
+        <div class="flex items-center space-x-6 mb-6">
+          <span class="text-3xl font-semibold text-green-500">
+            ${{ product.precioUSD }}
+          </span>
+          <span class="text-2xl font-semibold text-gray-800">
+            S/{{ product.precioSoles }}
+          </span>
+        </div>
+        <a
+          [href]="product.link"
+          target="_blank"
+          class="inline-block bg-monza-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-monza-600 transition duration-300 mb-6"
+          >Ver Producto</a
+        >
+        <p class="text-gray-700 leading-relaxed mb-6">
+          {{ product.descripcion }}
+        </p>
+
+        <!-- Additional Details -->
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">Color:</h3>
+          <p class="text-gray-700">{{ product.color }}</p>
+        </div>
+        <!-- <div class="mb-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">Stock:</h3>
+          <p
+            [class.text-green-500]="product.stock > 0"
+            [class.text-red-500]="product.stock <= 0"
+          >
+            {{ product.stock > 0 ? 'Disponible' : 'Agotado' }}
+          </p>
+        </div> -->
+        <div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">
+            Características:
+          </h3>
+          <ul class="list-disc list-inside text-gray-700">
+            <li>{{ product.caracteristica }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

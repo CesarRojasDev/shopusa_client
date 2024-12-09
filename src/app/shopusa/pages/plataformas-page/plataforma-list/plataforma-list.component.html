@@ -1,0 +1,50 @@
+<div class="flex items-center justify-center min-h-screen">
+  <div
+    class="relative flex flex-col w-full md:w-1/2  h-auto overflow-y-auto text-gray-700 bg-white shadow-lg rounded-lg bg-clip-border"
+  >
+    <table class="w-full text-left table-auto min-w-max">
+      <thead>
+        <tr class="border-b border-slate-200 bg-monza-500 text-white">
+          <th class="p-4 text-sm font-semibold text-center">
+            <p class="leading-none">#</p>
+          </th>
+          <th class="p-4 text-sm font-semibold text-center">
+            <p class="leading-none">Nombre</p>
+          </th>
+          <th class="p-4 text-sm font-semibold text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody
+        *ngFor="let plataforma of plataformas; let i = index"
+        class="text-center"
+      >
+        <tr class="hover:bg-monza-50 cursor-pointer transition-colors">
+          <td class="p-4 border-b border-slate-200">
+            <p class="text-sm text-slate-800 font-medium">
+              {{ i + 1 }}
+            </p>
+          </td>
+          <td class="p-4 border-b border-slate-200">
+            <p class="text-sm text-slate-800 font-medium">
+              {{ plataforma.nombre }}
+            </p>
+          </td>
+          <td class="p-4 text-center space-x-4">
+            <a
+              [routerLink]="['/shopusa/plataformas/crear', plataforma.id]"
+              class="inline-block text-sm font-semibold text-slate-800 hover:text-sky-500 transition-colors"
+            >
+              <i class="fas fa-edit"></i> Editar
+            </a>
+            <a
+              (click)="deletePlataforma(plataforma.id)"
+              class="inline-block text-sm font-semibold text-red-600 hover:text-red-800 transition-colors"
+            >
+              <i class="fas fa-trash-alt"></i> Eliminar
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
