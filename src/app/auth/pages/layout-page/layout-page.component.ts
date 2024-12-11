@@ -12,7 +12,7 @@ import { Component, Input } from '@angular/core';
   }
 }
 .bg-wave {
-  background-image: url('/wave_3.svg');
+  background-image: url('/wave.svg');
   background-repeat: repeat-x;
   background-position: bottom;
   background-size: auto 100%;

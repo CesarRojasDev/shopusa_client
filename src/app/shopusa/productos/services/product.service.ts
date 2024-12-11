@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { Producto } from '../../interfaces/producto.interface';
+import { ProductResponse } from '../../interfaces/product-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,12 +14,14 @@ export class ProductService {
   
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<Producto[]> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
-    });
-    return this.http.get<Producto[]>(this.API_URL, { headers });
-  }
+  getProducts(page: number, size: number, sort: string): Observable<ProductResponse> {
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+  });
+  const params = { page: page.toString(), size: size.toString(), sort };
+  return this.http.get<any>(this.API_URL, { headers, params });
+}
+
 
   getProductById(id: string): Observable<Producto> {
     const headers = new HttpHeaders({
@@ -38,5 +41,19 @@ export class ProductService {
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
     });
     return this.http.post<Producto>(this.API_URL, product, { headers });
+  }
+  updateProducto(product: Producto, id: string): Observable<Producto> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.put<Producto>(`${this.API_URL}/${id}`, product, {
+      headers,
+    });
+  }
+  deleteProduct(id: string): Observable<Producto> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.delete<Producto>(`${this.API_URL}/${id}`, { headers });
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Subcategoria } from '../../../interfaces/subcategoria.interface';
-import { SubCategoriaService } from '../../services/subCategoria.service';
+import { SubcategoriaService } from '../../../subcategorias/services/subcategoria.service';
 
 @Component({
   selector: 'app-subcategorias-list',
@@ -11,7 +11,7 @@ export class SubcategoriasListComponent implements OnInit {
 
   public subcategorias: Subcategoria[] = [];
 
-  constructor(private subcategoriaService: SubCategoriaService) {}
+  constructor(private subcategoriaService: SubcategoriaService) {}
   ngOnInit(): void {
     this.subcategoriaService
       .getSubCategorias()

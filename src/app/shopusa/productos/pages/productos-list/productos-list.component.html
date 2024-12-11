@@ -1,4 +1,3 @@
-
 <div class="text-center mt-24">
   <h1
     class="text-4xl md:text-3xl font-bold text-blue-gray-900 hover:scale-110 transition ease-in-out"
@@ -6,80 +5,191 @@
     PRODUCTOS SHOPUSA
   </h1>
   <p class="text-lg opacity-60 text-astronaut-950 mt-4">
-    Inventario actualizado 02-12-2024
+    Inventario actualizado 11-12-2024
   </p>
-</div>
-
-<!-- Ajuste del grid y eliminación del overflow horizontal -->
-<div class="flex justify-center mt-6 items-center p-6 overflow-x-hidden">
-  <div
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl w-full"
-  >
-    <div
-      *ngFor="let product of products"
-      class="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-full"
-    >
-      <!-- Imagen del producto -->
-      <div
-        class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-full"
-        [routerLink]="['/shopusa/productos/detalle', product.sku]"
-      >
-        <img
-          [src]="product.imagenesUrls[0]"
-          alt="{{ product.nombre }}"
-          class="hover:scale-110 transition ease-in-out"
-        />
+  <div class="flex justify-center mt-6 items-center p-6 w-full">
+    <div class="flex justify-between items-center gap-4">
+      <!-- Filtro por subcategoría -->
+      <div class="flex items-center">
+        <p class="mr-2">Filtrar por subcategoría:</p>
+        <select
+          class="border-gray-300 rounded-lg border p-2"
+          (change)="onSubcategoryChange($event)"
+        >
+          <option value="todos">Todas</option>
+          <option
+            *ngFor="let subcategoria of subcategorias"
+            [value]="subcategoria.nombre"
+          >
+            {{ subcategoria.nombre }}
+          </option>
+        </select>
       </div>
-      <!-- Contenido del producto -->
+
+      <!-- Ordenar por -->
+      <div class="flex items-center">
+        <p class="mr-2">Ordenar por:</p>
+        <select
+          class="border-gray-300 rounded-lg border p-2"
+          (change)="onSortChange($event)"
+        >
+          <option value="nombre,asc">Nombre (Ascendente)</option>
+          <option value="nombre,desc">Nombre (Descendente)</option>
+          <option value="precioUSD,asc">Precio USD (Ascendente)</option>
+          <option value="precioUSD,desc">Precio USD (Descendente)</option>
+          <option value="precioSoles,asc">Precio Soles (Ascendente)</option>
+          <option value="precioSoles,desc">Precio Soles (Descendente)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ajuste del grid y eliminación del overflow horizontal -->
+  <div class="flex justify-center mt-6 items-center p-6 overflow-x-hidden">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl w-full"
+    >
       <div
-        class="p-6 flex-grow bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
+        *ngFor="let product of products"
+        class="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-full"
       >
-        <div class="flex items-start justify-between mb-4">
-          <!-- Título del producto -->
-          <p
-            class="block font-sans text-lg md:text-xl font-semibold leading-tight text-gray-900"
-          >
-            {{ product.nombre }}
-          </p>
-        </div>
-
-        <div class="flex items-center justify-between mb-4">
-          <!-- Precio en USD -->
-          <p
-            class="block font-sans text-lg md:text-xl font-semibold leading-relaxed text-green-600"
-          >
-            ${{ product.precioUSD }}
-          </p>
-          <!-- Precio en Soles (si se aplica) -->
-          <p
-            class="block font-sans text-md md:text-lg font-semibold leading-relaxed text-gray-500"
-          >
-            S/ {{ product.precioSoles }}
-          </p>
-        </div>
-
-        <p
-          class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80 mb-2"
+        <!-- Imagen del producto -->
+        <div
+          class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-full"
+          [routerLink]="['/shopusa/productos/detalle', product.sku]"
         >
-          <span class="font-semibold">Color:</span> {{ product.color }}
-        </p>
-
-        <p
-          class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80"
+          <!-- <img
+            [src]="product.imagenesUrls[0]"
+            alt="{{ product.nombre }}"
+            class="hover:scale-110 transition ease-in-out"
+          /> -->
+          <picture>
+            <source
+              [srcset]="product.imagenesUrls[0].replace('.jpg', '.webp')"
+              type="image/webp"
+            />
+            <img
+              [src]="product.imagenesUrls[0]"
+              alt="{{ product.nombre }}"
+              class="hover:scale-110 transition ease-in-out"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+        <!-- Contenido del producto -->
+        <div
+          class="p-6 flex-grow bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
         >
-          <span class="font-semibold">SKU:</span> {{ product.sku }}
-        </p>
-        <!-- Botón al final -->
-        <div class="mt-8">
-          <a
-            [href]="product.link"
-            target="_blank"
-            class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg text-white bg-monza-500 hover:bg-monza-600 active:bg-monza-700 block w-full"
+          <div class="flex items-start justify-between mb-4">
+            <!-- Título del producto -->
+            <p
+              class="block font-sans text-lg md:text-xl font-semibold leading-tight text-gray-900"
+            >
+              {{ product.nombre.slice(0, 40).concat("...") }}
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between mb-4">
+            <!-- Precio en USD -->
+            <p
+              class="block font-sans text-lg md:text-xl font-semibold leading-relaxed text-green-600"
+            >
+              ${{ product.precioUSD }}
+            </p>
+            <!-- Precio en Soles (si se aplica) -->
+            <p
+              class="block font-sans text-md md:text-lg font-semibold leading-relaxed text-gray-500"
+            >
+              S/ {{ product.precioSoles }}
+            </p>
+          </div>
+          <p
+            class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80 mb-2"
           >
-            View on Amazon
-          </a>
+            <span class="font-semibold">Color:</span> {{ product.color }}
+          </p>
+
+          <p
+            class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80"
+          >
+            <span class="font-semibold">SKU:</span> {{ product.sku }}
+          </p>
+          <div class="mt-8">
+            <a
+              [href]="product.link"
+              target="_blank"
+              class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg text-white bg-monza-500 hover:bg-monza-600 active:bg-monza-700 block w-full"
+            >
+              Ver en Amazon
+            </a>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Paginación -->
+  <div class="flex justify-center my-8">
+    <ol class="flex items-center space-x-2">
+      <!-- Botón para ir a la página anterior -->
+      <li>
+        <button
+          (click)="previousPage()"
+          [disabled]="page === 0"
+          class="w-10 h-10 flex items-center justify-center border rounded-lg text-gray-500 border-gray-300 hover:bg-monza-500 hover:text-white transition-all duration-300 disabled:opacity-50"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </li>
+
+      <!-- Páginas dinámicas -->
+      <li
+        *ngFor="let p of pages"
+        [ngClass]="{ 'bg-monza-500 text-white': p === page + 1 }"
+      >
+        <button
+          (click)="goToPage(p - 1)"
+          class="w-10 h-10 flex items-center justify-center border rounded-lg text-gray-600 hover:bg-monza-500 hover:text-white transition-all duration-300"
+          [class.bg-monza-500]="p === page + 1"
+          [class.text-white]="p === page + 1"
+          [class.border-monza-500]="p === page + 1"
+        >
+          {{ p }}
+        </button>
+      </li>
+
+      <!-- Botón para ir a la página siguiente -->
+      <li>
+        <button
+          (click)="nextPage()"
+          [disabled]="page >= totalPages - 1"
+          class="w-10 h-10 flex items-center justify-center border rounded-lg text-gray-500 border-gray-300 hover:bg-monza-500 hover:text-white transition-all duration-300 disabled:opacity-50"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </li>
+    </ol>
   </div>
 </div>

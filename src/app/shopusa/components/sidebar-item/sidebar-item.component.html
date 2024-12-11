@@ -4,24 +4,63 @@
     class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all"
   >
     <div class="grid place-items-center mr-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path fill-rule="evenodd" d="M12 2a10 10 0 10.001 20.001A10 10 0 0012 2zm.625 12.75H11.25v1.125h1.125V15h1.125V13.875h-1.125V12h-1.125v1.875H10.5v1.125h1.125V15zm0-9.375h-1.125v4.125h1.125V5.375z" clip-rule="evenodd"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-box"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" />
+        <path d="M12 12l8 -4.5" />
+        <path d="M12 12l0 9" />
+        <path d="M12 12l-8 -4.5" />
       </svg>
     </div>
     {{ title }}
-    <svg *ngIf="isOpen" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path fill-rule="evenodd" d="M12 15.25l-7-7h14l-7 7z" clip-rule="evenodd"/>
+    <svg
+      *ngIf="isOpen"
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4 ml-auto"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M12 15.25l-7-7h14l-7 7z"
+        clip-rule="evenodd"
+      />
     </svg>
-    <svg *ngIf="!isOpen" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-auto" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path fill-rule="evenodd" d="M12 8.75l7 7h-14l7-7z" clip-rule="evenodd"/>
+    <svg
+      *ngIf="!isOpen"
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4 ml-auto"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path fill-rule="evenodd" d="M12 8.75l7 7h-14l7-7z" clip-rule="evenodd" />
     </svg>
   </button>
 
   <div *ngIf="isOpen" class="flex flex-col space-y-2 mt-2 pl-4">
-    <a [routerLink]="routeList" class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all">
+    <a
+      [routerLink]="routeList"
+      class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all"
+    >
       Listado
     </a>
-    <a [routerLink]="routeCreate" class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all">
+    <a
+      [routerLink]="routeCreate"
+      class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all"
+    >
       Crear
     </a>
   </div>

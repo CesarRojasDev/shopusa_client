@@ -1,78 +1,123 @@
 <ng-template #loading>
-  <div class="h-screen flex items-center justify-center text-lg text-gray-500">
+  <div
+    class="h-screen flex items-center justify-center text-xl font-medium text-gray-600 animate-pulse"
+  >
     Cargando información del producto...
   </div>
 </ng-template>
 
 <div *ngIf="product; else loading">
-  <div class="container mx-auto px-4 sm:px-8 lg:px-16">
-    <div class="flex flex-wrap -mx-4">
+  <div class="container mx-auto px-4 sm:px-8 lg:px-16 py-8">
+    <div class="flex flex-wrap -mx-4 items-start">
       <!-- Product Images -->
-      <div class="w-full md:w-1/2 px-4 mb-8">
-        <div class="relative rounded-lg overflow-hidden shadow-md">
+      <div class="w-full lg:w-1/2 px-4 mb-8">
+        <div
+          class="relative rounded-xl overflow-hidden shadow-lg border border-gray-200"
+        >
           <img
             [src]="imageSelected || product.imagenesUrls[0]"
             [alt]="product.nombre"
             class="w-full h-auto transition-transform duration-500 ease-in-out transform hover:scale-105"
           />
         </div>
-        <div class="flex gap-4 py-4 justify-center overflow-x-auto mt-4">
-          <ng-container *ngFor="let imageUrl of product.imagenesUrls; let i = index">
+        <div class="flex gap-4 py-4 justify-center overflow-x-auto mt-6">
+          <ng-container
+            *ngFor="let imageUrl of product.imagenesUrls; let i = index"
+          >
             <img
               [src]="imageUrl"
               [alt]="'Imagen ' + (i + 1)"
               (click)="changeImage(imageUrl)"
-              class="w-20 h-20 sm:w-28 sm:h-28 object-cover rounded-md cursor-pointer opacity-70 hover:opacity-100 transition-opacity duration-300 transform hover:scale-110 border-2 border-transparent hover:border-gray-300"
+              class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-cover rounded-lg cursor-pointer opacity-70 hover:opacity-100 transition-opacity duration-300 transform hover:scale-110 border-2 border-transparent hover:border-monza-500"
             />
           </ng-container>
         </div>
       </div>
 
       <!-- Product Details -->
-      <div class="w-full md:w-1/2 px-4">
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">
+      <div
+        class="w-full lg:w-1/2 bg-white p-6 sm:p-8 lg:p-12 shadow-lg rounded-xl border border-gray-200"
+      >
+        <h1 class="text-2xl sm:text-3xl font-medium text-gray-900 mb-4">
           {{ product.nombre }}
         </h1>
-        <p class="text-gray-500 mb-2">
-          SKU: <span class="font-medium">{{ product.sku }}</span>
+        <p class="text-gray-600 mb-2">
+          <span class="font-semibold text-gray-700">Subcategoria: </span>
+          <span class="font-medium">{{ product.subCategoria.nombre }}</span>
         </p>
-        <div class="flex items-center space-x-6 mb-6">
-          <span class="text-3xl font-semibold text-green-500">
-            ${{ product.precioUSD }}
-          </span>
-          <span class="text-2xl font-semibold text-gray-800">
-            S/{{ product.precioSoles }}
-          </span>
-        </div>
-        <a
-          [href]="product.link"
-          target="_blank"
-          class="inline-block bg-monza-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-monza-600 transition duration-300 mb-6"
-          >Ver Producto</a
+        <p class="text-gray-600 mb-2">
+          <span class="font-semibold text-gray-700">SKU: </span>
+          <span class="font-medium">{{ product.sku }}</span>
+        </p>
+        <div
+          class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 mb-8"
         >
+          <!-- Precio en USD -->
+          <div class="flex items-center space-x-1 mb-4 sm:mb-0">
+            <span class="text-2xl sm:text-3xl text-green-600">$</span>
+            <span class="text-2xl sm:text-3xl text-green-600">
+              {{ product.precioUSD }}
+            </span>
+          </div>
+
+          <!-- Separador visual -->
+          <span class="hidden sm:inline text-xl text-gray-400">|</span>
+
+          <!-- Precio en Soles -->
+          <div class="flex items-center space-x-1">
+            <span class="text-2xl sm:text-3xl text-gray-800">S/</span>
+            <span class="text-2xl sm:text-3xl text-gray-800">
+              {{ product.precioSoles }}
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center mt-6 gap-4">
+          <a
+            [href]="product.link"
+            target="_blank"
+            class="inline-block bg-monza-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-monza-600 transition duration-300 mb-6"
+            >Ver Producto</a
+          >
+          <a
+            [routerLink]="['/shopusa/productos/editar', product.id]"
+            class="bg-monza-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-monza-600 transition duration-300 mb-6"
+          >
+            Editar
+          </a>
+          <a
+            *ngIf="isAdmin"
+            (click)="onDelete(product.id)"
+            class="bg-monza-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-monza-600 transition duration-300 mb-6 cursor-pointer"
+          >
+            Eliminar
+          </a>
+        </div>
+        <hr class="my-6 border-gray-300" />
         <p class="text-gray-700 leading-relaxed mb-6">
           {{ product.descripcion }}
         </p>
 
         <!-- Additional Details -->
         <div class="mb-6">
-          <h3 class="text-lg font-semibold text-gray-800 mb-2">Color:</h3>
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
+            Color
+          </h3>
           <p class="text-gray-700">{{ product.color }}</p>
         </div>
-        <!-- <div class="mb-6">
-          <h3 class="text-lg font-semibold text-gray-800 mb-2">Stock:</h3>
-          <p
-            [class.text-green-500]="product.stock > 0"
-            [class.text-red-500]="product.stock <= 0"
-          >
-            {{ product.stock > 0 ? 'Disponible' : 'Agotado' }}
-          </p>
-        </div> -->
-        <div>
-          <h3 class="text-lg font-semibold text-gray-800 mb-2">
+        <div class="mb-6">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
+            Stock
+          </h3>
+          <p class="text-gray-700">{{ product.stock }}</p>
+        </div>
+        <hr />
+
+        <div class="mt-6">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
             Características:
           </h3>
-          <ul class="list-disc list-inside text-gray-700">
+          <ul class="list-disc list-inside text-gray-700 space-y-1">
             <li>{{ product.caracteristica }}</li>
           </ul>
         </div>

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../auth/service/auth.service';
 
 @Component({
   selector: 'shopusa-sidebar',
@@ -12,7 +11,7 @@ export class SidebarComponent {
   isComisionesOpen = false;
   isPlataformasOpen = false;
   isPublicacionesOpen = false;
-  constructor(private authService: AuthService) {}
+
   toggleProductos() {
     this.isProductosOpen = !this.isProductosOpen;
   }
@@ -31,8 +30,5 @@ export class SidebarComponent {
   }
   togglePublicaciones() {
     this.isPublicacionesOpen = !this.isPublicacionesOpen;
-  }
-  onLogout(): void {
-    this.authService.logout();
   }
 }

@@ -16,6 +16,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     PlataformasRoutingModule,
     ReactiveFormsModule
-  ]
+  ],
 })
 export class PlataformasModule { }

@@ -1,6 +1,7 @@
-<div class="flex items-center justify-center min-h-screen">
+<div class="p-12 w-full">
+  <!-- <shopusa-table-actions title="Comisiones"/> -->
   <div
-    class="relative flex flex-col w-full md:w-3/4 h-auto overflow-y-auto text-gray-700 bg-white shadow-lg rounded-lg bg-clip-border"
+    class="relative flex flex-col w-full h-auto overflow-y-auto text-gray-700 bg-white shadow-lg rounded-lg bg-clip-border"
   >
     <table class="w-full text-left table-auto min-w-max">
       <thead>
@@ -48,15 +49,50 @@
           <td class="p-4 text-center space-x-4">
             <a
               [routerLink]="['/shopusa/comisiones/crear', comision.id]"
-              class="inline-block text-sm font-semibold text-slate-800 hover:text-sky-500 transition-colors"
+              class="inline-block text-sm font-semibold text-slate-800 hover:text-orange-500 transition-colors"
             >
-              <i class="fas fa-edit"></i> Editar
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-edit"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"
+                />
+                <path
+                  d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
+                />
+                <path d="M16 5l3 3" />
+              </svg>
             </a>
             <a
               (click)="deleteComision(comision.id)"
               class="inline-block text-sm font-semibold text-red-600 hover:text-red-800 transition-colors"
             >
-              <i class="fas fa-trash-alt"></i> Eliminar
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-x"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M18 6l-12 12" />
+                <path d="M6 6l12 12" />
+              </svg>
             </a>
           </td>
         </tr>

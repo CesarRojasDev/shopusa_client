@@ -5,19 +5,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ComisionFormComponent } from './pages/comision-form/comision-form.component';
 import { ComisionListComponent } from './pages/comision-list/comision-list.component';
 import { ComisionRoutingModule } from './comision-routing.module';
-import { ComisionService } from './services/comision.service';
+import { ShopusaModule } from '../shopusa.module';
 
 
 @NgModule({
   declarations: [
     ComisionFormComponent,
-    ComisionListComponent
+    ComisionListComponent,
   ],
   imports: [
-    CommonModule,
     ComisionRoutingModule,
+    CommonModule,
+    // ShopusaModule,
     ReactiveFormsModule
   ],
-  providers: [ComisionService]
 })
 export class ComisionModule { }

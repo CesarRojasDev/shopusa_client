@@ -15,5 +15,4 @@ export interface Producto {
     link:           string;
     subCategoria:   Subcategoria;
     imagenesUrls:   string[];
-    imagenPrincipal?: string;
 }

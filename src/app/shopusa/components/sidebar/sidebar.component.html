@@ -1,7 +1,8 @@
-<div class="flex h-screen">
-  <div class="flex flex-col w-64 bg-red-600 text-white">
-    <div class="p-4">
-      <h5 class="text-xl text-center font-semibold">SHOPUSA</h5>
+<div class="flex h-screen shadow-md bg-white">
+  <div class="flex flex-col w-64 text-gray-500">
+    <div class="p-8">
+      <!-- <h5 class="text-xl text-center font-semibold">SHOPUSA</h5> -->
+      <img src="logo.png" alt="" />
     </div>
     <nav class="flex-1 overflow-y-auto p-4">
       <shopusa-sidebar-item
@@ -57,12 +58,5 @@
         (click)="togglePublicaciones()"
       ></shopusa-sidebar-item>
     </nav>
-    <div class="flex justify-center items-center p-6 gap-4">
-      <a
-        class="px-6 py-2 min-w-[120px] text-center cursor-pointer text-white bg-monza-700 rounded hover:bg-monza-800 active:bg-monza-900 all-transition-colors ease-in-out"
-        (click)="onLogout()"
-        >Logout
-      </a>
-    </div>
   </div>
 </div>

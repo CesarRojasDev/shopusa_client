@@ -16,6 +16,6 @@ import { SubcategoriasRoutingModule } from './subcategorias-routing.module';
     CommonModule,
     SubcategoriasRoutingModule,
     ReactiveFormsModule,
-  ]
+  ],
 })
 export class SubcategoriasModule { }

@@ -20,7 +20,7 @@ const routes: Routes = [
         component: ProductosFormComponent,
       },
       {
-        path: 'crear/:sku',
+        path: 'editar/:id',
         component: ProductosFormComponent,
       },
       {

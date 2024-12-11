@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
-export class SubCategoriaService {
+export class SubcategoriaService {
   private API_URL = 'http://localhost:8080/api/subcategorias'; // La URL del backend
   private token = localStorage.getItem('token'); // Obtener el token de autenticación
 

@@ -13,6 +13,10 @@ import { ProductosRoutingModule } from './productos-routing.module';
     ProductosListComponent,
     ProductosFormComponent,
   ],
-  imports: [CommonModule, ProductosRoutingModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ProductosRoutingModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ProductosModule {}
