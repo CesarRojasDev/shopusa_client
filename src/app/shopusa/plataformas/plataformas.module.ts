@@ -5,6 +5,7 @@ import { PlataformasRoutingModule } from './plataformas-routing.module';
 import { PlataformaFormComponent } from './pages/plataforma-form/plataforma-form.component';
 import { PlataformaListComponent } from './pages/plataforma-list/plataforma-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ShopusaModule } from '../shopusa.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     PlataformasRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ShopusaModule
   ],
 })
 export class PlataformasModule { }

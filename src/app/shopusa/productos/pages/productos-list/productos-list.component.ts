@@ -33,7 +33,7 @@ export class ProductosListComponent implements OnInit {
   loadProducts(): void {
     // Llamada al servicio con el filtro por subcategoría
     this.productService
-      .getProducts(this.page, this.size, this.sort )
+      .getProductsPaginados(this.page, this.size, this.sort )
       .subscribe((response) => {
         console.log(response);
         this.products = response.content;

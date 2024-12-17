@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SubcategoriasFormComponent } from './pages/subcategorias-form/subcategorias-form.component';
 import { SubcategoriasListComponent } from './pages/subcategorias-list/subcategorias-list.component';
 import { SubcategoriasRoutingModule } from './subcategorias-routing.module';
+import { ShopusaModule } from "../shopusa.module";
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { SubcategoriasRoutingModule } from './subcategorias-routing.module';
     CommonModule,
     SubcategoriasRoutingModule,
     ReactiveFormsModule,
-  ],
+    ShopusaModule
+],
 })
 export class SubcategoriasModule { }

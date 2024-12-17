@@ -16,7 +16,7 @@ import { ShopusaModule } from '../shopusa.module';
   imports: [
     ComisionRoutingModule,
     CommonModule,
-    // ShopusaModule,
+    ShopusaModule,
     ReactiveFormsModule
   ],
 })

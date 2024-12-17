@@ -1,4 +1,9 @@
-<div class="p-12 w-full">
+<div class="p-12">
+  <shopusa-table-actions
+    title="Subcategorias"
+    [totalRegistros]="subcategorias.length"
+    [urlNuevo]="'/shopusa/subcategorias/crear'"
+  />
   <div
     class="relative flex flex-col w-full h-auto overflow-y-auto text-gray-700 bg-white shadow-lg rounded-lg bg-clip-border"
   >

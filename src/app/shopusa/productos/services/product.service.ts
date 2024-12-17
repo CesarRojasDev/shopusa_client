@@ -14,14 +14,19 @@ export class ProductService {
   
   constructor(private http: HttpClient) {}
 
-  getProducts(page: number, size: number, sort: string): Observable<ProductResponse> {
+  getProductsPaginados(page: number, size: number, sort: string): Observable<ProductResponse> {
   const headers = new HttpHeaders({
     Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
   });
   const params = { page: page.toString(), size: size.toString(), sort };
-  return this.http.get<any>(this.API_URL, { headers, params });
+  return this.http.get<ProductResponse>(`${this.API_URL}/paginados`, { headers, params });
 }
-
+getProducts(): Observable<Producto[]> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.get<Producto[]>(this.API_URL, { headers });
+  }
 
   getProductById(id: string): Observable<Producto> {
     const headers = new HttpHeaders({
