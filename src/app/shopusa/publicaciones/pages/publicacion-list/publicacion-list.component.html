@@ -1,5 +1,9 @@
 <div class="p-12 w-full">
-  <shopusa-table-actions title="Publicaciones" [totalRegistros]="publicaciones.length" [urlNuevo]="'/shopusa/publicaciones/crear'"/>
+  <shopusa-table-actions
+    title="Publicaciones"
+    [totalRegistros]="publicaciones.length"
+    [urlNuevo]="'/shopusa/publicaciones/crear'"
+  />
   <div
     class="relative flex flex-col w-full h-auto overflow-y-auto text-gray-700 bg-white shadow-lg rounded-lg bg-clip-border"
   >
@@ -10,7 +14,13 @@
             <p class="leading-none">#</p>
           </th>
           <th class="p-4 text-sm font-semibold text-center">
+            <p class="leading-none">Imagen</p>
+          </th>
+          <th class="p-4 text-sm font-semibold text-center">
             <p class="leading-none">Fecha</p>
+          </th>
+          <th class="p-4 text-sm font-semibold text-center">
+            <p class="leading-none">Plataforma</p>
           </th>
           <th class="p-4 text-sm font-semibold text-center">
             <p class="leading-none">Precio (S/)</p>
@@ -22,6 +32,9 @@
             <p class="leading-none">Producto</p>
           </th>
           <th class="p-4 text-sm font-semibold text-center">
+            <p class="leading-none">SKU ShopUsa</p>
+          </th>
+          <th class="p-4 text-sm font-semibold text-center">
             <p class="leading-none">Usuario</p>
           </th>
           <th class="p-4 text-sm font-semibold text-center">Acciones</th>
@@ -31,15 +44,36 @@
         *ngFor="let publicacion of publicaciones; let i = index"
         class="text-center"
       >
-        <tr class="hover:bg-monza-50 cursor-pointer transition-colors">
+        <tr class="cursor-pointer">
           <td class="p-4 border-b border-slate-200">
             <p class="text-sm text-slate-800 font-medium">
               {{ i + 1 }}
             </p>
           </td>
           <td class="p-4 border-b border-slate-200">
+            <picture>
+              <source
+                [srcset]="
+                  publicacion.producto.imagenesUrls[0].replace('.jpg', '.webp')
+                "
+                type="image/webp"
+              />
+              <img
+                [src]="publicacion.producto.imagenesUrls[0]"
+                alt="{{ publicacion.producto.nombre }}"
+                class="w-28 h-28 hover:scale-110 transition ease-in-out"
+                loading="lazy"
+              />
+            </picture>
+          </td>
+          <td class="p-4 border-b border-slate-200">
             <p class="text-sm text-slate-800 font-medium">
               {{ publicacion.fechaPublicacion | date : "dd/MM/yyyy" }}
+            </p>
+          </td>
+          <td class="p-4 border-b border-slate-200">
+            <p class="text-sm text-slate-800 font-medium">
+              {{ publicacion.plataforma.nombre | uppercase }}
             </p>
           </td>
           <td class="p-4 border-b border-slate-200">
@@ -53,8 +87,20 @@
             </p>
           </td>
           <td class="p-4 border-b border-slate-200">
+            <a
+              [routerLink]="[
+                '/shopusa/productos/detalle',
+                publicacion.producto.sku
+              ]"
+            >
+              <p class="text-sm text-slate-800 font-medium">
+                {{ publicacion.producto.nombre }}
+              </p>
+            </a>
+          </td>
+          <td class="p-4 border-b border-slate-200">
             <p class="text-sm text-slate-800 font-medium">
-              {{ publicacion.producto.nombre }}
+              {{ publicacion.producto.sku }}
             </p>
           </td>
           <td class="p-4 border-b border-slate-200">

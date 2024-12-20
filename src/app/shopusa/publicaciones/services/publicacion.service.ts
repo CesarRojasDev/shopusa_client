@@ -5,14 +5,13 @@ import { Observable } from 'rxjs';
 
 import { Publicacion } from '../../interfaces/publicacion.interface';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class PublicacionService {
-
   private API_URL = 'http://localhost:8080/api/publicaciones'; // La URL del backend
   private token = localStorage.getItem('token'); // Obtener el token de autenticación
-    
+
   constructor(private http: HttpClient) {}
-  
+
   getPublicaciones(): Observable<Publicacion[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
@@ -36,13 +35,22 @@ export class PublicacionService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
     });
-    return this.http.put<any>(`${this.API_URL}/${publicacion.id}`, publicacion, { headers });
-  } 
-  calcularPrecio(productoId: string, plataformaId: string): Observable<Publicacion> {
+    return this.http.put<any>(
+      `${this.API_URL}/${publicacion.id}`,
+      publicacion,
+      { headers }
+    );
+  }
+  calcularPrecio(
+    productoId: string,
+    plataformaId: string
+  ): Observable<Publicacion> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
     });
-    return this.http.get<any>(`${this.API_URL}/calcular-precio?productoId=${productoId}&plataformaId=${plataformaId}`, { headers });
-
+    return this.http.get<any>(
+      `${this.API_URL}/calcular-precio?productoId=${productoId}&plataformaId=${plataformaId}`,
+      { headers }
+    );
   }
 }

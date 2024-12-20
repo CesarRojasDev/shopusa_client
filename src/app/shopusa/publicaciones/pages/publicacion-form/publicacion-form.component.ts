@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { AuthService } from '../../../../auth/service/auth.service';
 import { Plataforma } from '../../../interfaces/comision.interface';
 import { PlataformaService } from '../../../plataformas/services/plataforma.service';
 import { Producto } from '../../../interfaces/producto.interface';
 import { ProductService } from '../../../productos/services/product.service';
 import { PublicacionService } from '../../services/publicacion.service';
-import { ChildActivationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-publicacion-form',
@@ -21,14 +21,16 @@ export class PublicacionFormComponent implements OnInit {
     private productService: ProductService,
     private plataformaService: PlataformaService,
     private publicacionService: PublicacionService,
+    private authService: AuthService,
     private fb: FormBuilder
   ) {
     this.myForm = this.fb.group({
-      fecha: [''],
+      fechaPublicacion: [''],
       skuPlataforma: [''],
-      sku: [''],
-      plataforma: [''],
+      productoId: [''],
+      plataformaId: [''],
       precio: [''],
+      usuarioId: [''],
     });
   }
   ngOnInit(): void {
@@ -40,21 +42,17 @@ export class PublicacionFormComponent implements OnInit {
       .subscribe((plataformas: Plataforma[]) => {
         this.plataformas = plataformas;
       });
-
-    this.myForm.get('precio')?.disable();
   }
   onCalcularPrecio(): void {
-   const { sku, plataforma } = this.myForm.value;
+    const { productoId, plataformaId } = this.myForm.value;
 
-    this.publicacionService.calcularPrecio(sku, plataforma).subscribe(
+    this.publicacionService.calcularPrecio(productoId, plataformaId).subscribe(
       (response) => {
+        console.log(response)
         const precioCalculado = response.precio;
-        console.log('Precio calculado:', precioCalculado);
-
         this.myForm.patchValue({
           precio: precioCalculado,
         });
-
         this.isPriceCalculated = true;
       },
       (error) => {
@@ -65,13 +63,25 @@ export class PublicacionFormComponent implements OnInit {
   }
 
   onSave(): void {
-      if (!this.isPriceCalculated) return;
-    // Registrar la publicación
-    console.log('Formulario enviado:', this.myForm.value);
-    // Lógica para enviar la publicación...
+    if (!this.isPriceCalculated) return;
+
+    this.authService.getCurrentUser().subscribe((user) => {
+      this.myForm.patchValue({
+        usuarioId: user.id,
+      });
+    });
+    this.publicacionService.createPublicacion(this.myForm.value).subscribe(
+      (response) => {
+        console.log('Publicacion creada:', response);
+        this.myForm.reset();
+      },
+      (error) => {
+        console.error('Error al crear publicación:', error);
+      }
+    );
   }
 
-  onReset(): void{
+  onReset(): void {
     this.myForm.reset();
   }
 }

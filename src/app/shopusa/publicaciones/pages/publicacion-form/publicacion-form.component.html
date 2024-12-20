@@ -14,13 +14,14 @@
               type="text"
               class="w-full rounded-lg border py-2 px-3"
               formControlName="precio"
+              readonly
             />
           </div>
           <!-- Producto -->
           <div>
             <label class="block text-gray-700 mb-1">Producto</label>
             <select
-              formControlName="sku"
+              formControlName="productoId"
               class="w-full rounded-lg border py-2 px-3 dark:border-none"
             >
               <option value="" disabled selected>Seleccione un producto</option>
@@ -36,7 +37,7 @@
           <div>
             <label class="block text-gray-700 mb-1">Plataforma</label>
             <select
-              formControlName="plataforma"
+              formControlName="plataformaId"
               class="w-full rounded-lg border py-2 px-3 dark:border-none"
             >
               <option value="" disabled selected>
@@ -59,7 +60,7 @@
             <input
               type="date"
               class="w-full rounded-lg border py-2 px-3 dark:border-none"
-              formControlName="fecha"
+              formControlName="fechaPublicacion"
             />
           </div>
           <!-- SKU Plataforma -->
