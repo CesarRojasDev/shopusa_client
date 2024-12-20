@@ -27,7 +27,7 @@ export class SubcategoriasFormComponent {
       nombre: [''],
       categoriaId: [''],
       codigo: [''],
-      peso_gramos: [''],
+      pesoGramos: [''],
       ancho: [''],
       alto: [''],
       largo: [''],
