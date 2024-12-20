@@ -38,4 +38,11 @@ export class PublicacionService {
     });
     return this.http.put<any>(`${this.API_URL}/${publicacion.id}`, publicacion, { headers });
   } 
+  calcularPrecio(productoId: string, plataformaId: string): Observable<Publicacion> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.get<any>(`${this.API_URL}/calcular-precio?productoId=${productoId}&plataformaId=${plataformaId}`, { headers });
+
+  }
 }

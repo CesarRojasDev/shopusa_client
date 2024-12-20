@@ -5,6 +5,7 @@ import { PublicacionesRoutingModule } from './publicaciones-routing.module';
 import { PublicacionFormComponent } from './pages/publicacion-form/publicacion-form.component';
 import { PublicacionListComponent } from './pages/publicacion-list/publicacion-list.component';
 import { ShopusaModule } from '../shopusa.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ShopusaModule } from '../shopusa.module';
   imports: [
     CommonModule,
     PublicacionesRoutingModule,
+    ReactiveFormsModule,
     ShopusaModule
   ]
 })
