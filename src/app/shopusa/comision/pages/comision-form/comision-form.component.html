@@ -2,7 +2,7 @@
   <form [formGroup]="myForm" (ngSubmit)="onSave()" class="w-full max-w-md">
     <div class="bg-white p-8 rounded-lg shadow-md border dark:border-gray-700">
       <!-- Título -->
-      <h1 class="text-2xl font-bold text-center text-gray-800 py-6 mb-4">
+      <h1 class="text-3xl  text-center text-gray-800 py-6 mb-4">
         {{ isEditMode ? "Editar Comisión" : "Registrar Comisión" }}
       </h1>
 
@@ -92,7 +92,7 @@
       <!-- Botón de acción -->
       <div class="mt-8 flex justify-end">
         <button
-          class="bg-monza-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-monza-600 active:bg-monza-700 transition w-full sm:w-auto"
+          class="bg-monza-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-monza-600 active:bg-monza-700 transition w-full "
           type="submit"
           [disabled]="myForm.invalid"
         >

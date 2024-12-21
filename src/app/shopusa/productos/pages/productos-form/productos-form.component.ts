@@ -90,4 +90,7 @@ export class ProductosFormComponent implements OnInit {
       }
     );
   }
+  onReset(): void {
+    this.myForm.reset();
+  }
 }
