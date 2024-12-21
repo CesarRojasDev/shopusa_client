@@ -1,0 +1,98 @@
+<div class="h-screen flex items-center justify-center p-6 bg-gray-100">
+  <form
+    [formGroup]="myForm"
+    (submit)="onSubmit($event)"
+    class="bg-white p-8 rounded-lg shadow-md border dark:border-gray-700 w-full max-w-lg"
+  >
+    <h2
+      class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 border-b pb-4 mb-6"
+    >
+      Subir Imágenes
+    </h2>
+
+    <!-- Input para subir imágenes -->
+    <div class="mb-6">
+      <label
+        for="fileInput"
+        class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2"
+      >
+        Selecciona Imágenes
+      </label>
+      <input
+        type="file"
+        id="fileInput"
+        multiple
+        (change)="onFileChange($event)"
+        class="block w-full rounded-lg border border-gray-300 p-3 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
+        accept="image/*"
+      />
+    </div>
+
+    <!-- Mostrar las URLs de las imágenes subidas -->
+    <div *ngIf="urls.length > 0" class="mb-6">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+        URLs de Imágenes Subidas:
+      </h3>
+      <ul>
+        <li
+          *ngFor="let url of urls"
+          class="text-gray-600 dark:text-gray-300 text-sm"
+        >
+          {{ url }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Productos sin imágenes -->
+    <div class="relative">
+      <select
+        formControlName="productoId"
+        class="block w-full rounded-lg border border-gray-300 p-3 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
+        (change)="onProductoChange($event)"
+      >
+        <option value="" disabled selected>Seleccione un producto</option>
+        <option
+          *ngFor="let producto of productosSinImagenes"
+          [value]="producto.id"
+        >
+          {{ producto.sku }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Mensaje cuando todos los productos tienen imágenes -->
+    <div
+      class="mt-8 text-center text-gray-700 dark:text-gray-300"
+      *ngIf="productosSinImagenes.length === 0"
+    >
+      <p class="text-lg font-medium">
+        Todos los productos tienen imágenes asociadas.
+      </p>
+    </div>
+
+    <!-- Botón para subir imágenes -->
+    <div class="mt-6">
+      <button
+        type="submit"
+        class="w-full bg-monza-500 text-white text-lg font-semibold px-6 py-3 rounded-lg hover:bg-monza-600 active:bg-monza-700 transition duration-200"
+      >
+        Subir Imágenes
+      </button>
+    </div>
+
+    <!-- Botón para asociar imágenes -->
+    <div class="mt-6" *ngIf="urls.length > 0 && selectedProductoId">
+      <button
+        type="button"
+        (click)="asociarImagenes()"
+        class="w-full bg-green-500 text-white text-lg font-semibold px-6 py-3 rounded-lg hover:bg-green-600 active:bg-green-700 transition duration-200"
+      >
+        Asociar Imágenes
+      </button>
+    </div>
+    <!-- Mostrar el ID del producto seleccionado -->
+    <div *ngIf="selectedProductoId">
+      <p>Producto seleccionado: {{ selectedProductoId }}</p>
+    </div>
+  </form>
+</div>
