@@ -10,10 +10,10 @@ import { SubcategoriaService } from '../../services/subcategoria.service';
   templateUrl: './subcategorias-form.component.html',
 })
 export class SubcategoriasFormComponent {
-  public myForm: FormGroup;
   public categorias: Categoria[] = [];
   public id: string = '';
   public isEditMode: boolean = false;
+  public myForm: FormGroup;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -42,18 +42,51 @@ export class SubcategoriasFormComponent {
       .subscribe((categorias: Categoria[]) => {
         this.categorias = categorias;
       });
+
+      this.activateRoute.params.subscribe(({ id }) => {
+        if (id) {
+          this.isEditMode = true;
+          this.id = id;
+          this.subCategoriaService
+            .getSubcategoriaById(id)
+            .subscribe((subcategoria: any) => {
+              if (subcategoria) {
+                this.myForm.patchValue(subcategoria);
+              }
+            });
+        }
+      });
     
 
   }
   onSave(): void {
-    this.subCategoriaService.createSubcategoria(this.myForm.value).subscribe(
+    if(this.isEditMode){
+      this.onUpdate();
+    }else{
+      this.subCategoriaService.createSubcategoria(this.myForm.value).subscribe(
+        (response) => {
+          console.log('Subcategoria creada:', response);
+          this.router.navigateByUrl('shopusa/subcategorias/listado'); // Redirigir a la lista de subcategorias
+        },
+        (error) => {
+          console.error('Error al crear subcategoria:', error);
+        }
+      );
+    }
+  }
+
+  onUpdate(): void {
+    this.subCategoriaService.updateSubcategoria(this.myForm.value, this.id).subscribe(
       (response) => {
-        console.log('Subcategoria creada:', response);
+        console.log('Subcategoria actualizada:', response);
         this.router.navigateByUrl('shopusa/subcategorias/listado'); // Redirigir a la lista de subcategorias
       },
       (error) => {
-        console.error('Error al crear subcategoria:', error);
+        console.error('Error al actualizar subcategoria:', error);
       }
     );
+  }
+  onReset(): void {
+    this.myForm.reset();
   }
 }

@@ -16,6 +16,12 @@ export class SubcategoriaService {
     });
     return this.http.get<Subcategoria[]>(this.API_URL, { headers });
   }
+  getSubcategoriaById(id: string): Observable<Subcategoria> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.get<Subcategoria>(`${this.API_URL}/${id}`, { headers });
+  }
   deleteSubcategoria(id: string): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados

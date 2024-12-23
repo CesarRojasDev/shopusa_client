@@ -19,7 +19,7 @@ const routes: Routes = [
         component: SubcategoriasFormComponent,
       },
       {
-        path: 'crear/:id',
+        path: 'editar/:id',
         component: SubcategoriasFormComponent,
       },
     ],
