@@ -12,7 +12,15 @@
         [isOpen]="isProductosOpen"
         [toggleVisibility]="toggleProductos"
         (click)="toggleProductos()"
-      ></shopusa-sidebar-item>
+      />
+      <shopusa-sidebar-item
+        title="Imagenes"
+        routeCreate="/shopusa/imagenes/upload"
+        [showList]="false"
+        [isOpen]="isImagenesOpen"
+        [toggleVisibility]="toggleImagenes"
+        (click)="toggleImagenes()"
+      />
       <!-- Categorias Section -->
       <shopusa-sidebar-item
         title="Categorias"
@@ -21,7 +29,7 @@
         [isOpen]="isCategoriasOpen"
         [toggleVisibility]="toggleCategorias"
         (click)="toggleCategorias()"
-      ></shopusa-sidebar-item>
+      />
       <shopusa-sidebar-item
         title="SubCategorias"
         routeList="/shopusa/subcategorias/listado"
@@ -29,8 +37,8 @@
         [isOpen]="isSubcategoriasOpen"
         [toggleVisibility]="toggleSubcategorias"
         (click)="toggleSubcategorias()"
-      >
-      </shopusa-sidebar-item>
+      />
+
       <shopusa-sidebar-item
         title="Comisiones"
         routeList="/shopusa/comisiones/listado"
@@ -38,8 +46,7 @@
         [isOpen]="isComisionesOpen"
         [toggleVisibility]="toggleComisiones"
         (click)="toggleComisiones()"
-      >
-      </shopusa-sidebar-item>
+      />
       <shopusa-sidebar-item
         title="Plataformas"
         routeList="/shopusa/plataformas/listado"
@@ -47,8 +54,7 @@
         [isOpen]="isPlataformasOpen"
         [toggleVisibility]="togglePlataformas"
         (click)="togglePlataformas()"
-      >
-      </shopusa-sidebar-item>
+      />
       <shopusa-sidebar-item
         title="Publicaciones"
         routeList="/shopusa/publicaciones/listado"
@@ -56,7 +62,7 @@
         [isOpen]="isPublicacionesOpen"
         [toggleVisibility]="togglePublicaciones"
         (click)="togglePublicaciones()"
-      ></shopusa-sidebar-item>
+      />
     </nav>
   </div>
 </div>

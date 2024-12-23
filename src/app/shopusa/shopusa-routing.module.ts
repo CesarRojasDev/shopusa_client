@@ -38,10 +38,11 @@ const routes: Routes = [
         (m) => m.PublicacionesModule
       ),
   },
-  // {
-  //   path: '**',
-  //   redirectTo: 'productos',
-  // },
+  {
+    path: 'imagenes',
+    loadChildren: () =>
+      import('./imagenes/imagenes.module').then((m) => m.ImagenesModule),
+  },
 ];
 
 @NgModule({

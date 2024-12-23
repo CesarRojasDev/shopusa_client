@@ -5,12 +5,17 @@ import { Component } from '@angular/core';
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent {
-  isProductosOpen = false;
   isCategoriasOpen = false;
-  isSubcategoriasOpen = false;
   isComisionesOpen = false;
+  isImagenesOpen = false;
   isPlataformasOpen = false;
+  isProductosOpen = false;
   isPublicacionesOpen = false;
+  isSubcategoriasOpen = false;
+
+  toggleImagenes() {
+    this.isImagenesOpen = !this.isImagenesOpen;
+  }
 
   toggleProductos() {
     this.isProductosOpen = !this.isProductosOpen;

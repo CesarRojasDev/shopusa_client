@@ -11,9 +11,9 @@ export class SidebarItemComponent {
   @Input() isOpen: boolean = false; // Estado de abierto/cerrado
   @Input() toggleVisibility: () => void = () => {}; // Función para alternar visibilidad
 
+  @Input() public showList: boolean = true; // Indica si se muestra el enlace 'Listado'
   // Método para alternar el estado
   toggle() {
     this.toggleVisibility();
   }
 }
-

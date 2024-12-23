@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ImagenesService } from '../../services/imagenes.service';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ImagenesService } from '../../services/imagenes.service';
+import { ProductService } from '../../../productos/services/product.service';
 import { Producto } from '../../../interfaces/producto.interface';
-import { ProductService } from '../../services/product.service';
+import { CloudinaryService } from '../../services/cloudinary.service';
 
 @Component({
-  selector: 'app-imagenes',
-  templateUrl: './imagenes.component.html',
+  selector: 'shopusa-imagenes-upload',
+  templateUrl: './imagenes-upload.component.html',
 })
-export class ImagenesComponent implements OnInit {
+export class ImagenesUploadComponent {
   public myForm: FormGroup;
   public selectedFiles: File[] = []; // Almacena los archivos seleccionados
   public urls: string[] = []; // Almacena las URLs de las imágenes subidas
@@ -18,6 +19,7 @@ export class ImagenesComponent implements OnInit {
 
   constructor(
     private imagenesService: ImagenesService,
+    private cloudinaryService: CloudinaryService,
     private productService: ProductService,
     private fb: FormBuilder
   ) {
@@ -55,7 +57,7 @@ export class ImagenesComponent implements OnInit {
       const formData = new FormData();
       this.selectedFiles.forEach((file) => formData.append('files', file));
 
-      this.imagenesService.uploadImages(formData).subscribe(
+      this.cloudinaryService.uploadImages(formData).subscribe(
         (response) => {
           console.log('Imágenes subidas exitosamente:', response);
           this.urls = response; // Guardar las URLs devueltas por el backend

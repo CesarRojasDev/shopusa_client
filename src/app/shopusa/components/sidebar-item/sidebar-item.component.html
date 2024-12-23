@@ -52,6 +52,7 @@
 
   <div *ngIf="isOpen" class="flex flex-col space-y-2 mt-2 pl-4">
     <a
+      *ngIf="showList"
       [routerLink]="routeList"
       class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all"
     >
@@ -61,7 +62,7 @@
       [routerLink]="routeCreate"
       class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all"
     >
-      Crear
+      {{ !showList ? "Upload" : "Crear" }}
     </a>
   </div>
 </div>

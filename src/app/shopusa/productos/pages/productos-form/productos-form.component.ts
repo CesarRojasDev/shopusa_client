@@ -1,46 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ActivatedRoute, Router } from '@angular/router';
+import { Producto } from '../../../interfaces/producto.interface';
 import { ProductService } from '../../services/product.service';
 import { Subcategoria } from '../../../interfaces/subcategoria.interface';
 import { SubcategoriaService } from '../../../subcategorias/services/subcategoria.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Producto } from '../../../interfaces/producto.interface';
 
 @Component({
   selector: 'shopusa-productos-form',
   templateUrl: './productos-form.component.html',
 })
 export class ProductosFormComponent implements OnInit {
-  public myForm: FormGroup;
-  public subCategorias: Subcategoria[] = [];
+
   public id: string = '';
   public isEditMode: boolean = false;
+  public myForm: FormGroup;
+  public subCategorias: Subcategoria[] = [];
 
   constructor(
     private activateRoute: ActivatedRoute,
-    private subCategoriaService: SubcategoriaService,
-    private productService: ProductService,
     private fb: FormBuilder,
-    private router: Router
+    private productService: ProductService,
+    private router: Router,
+    private subCategoriaService: SubcategoriaService,
   ) {
     this.myForm = this.fb.group({
-      id: [null],
-      nombre: [''],
-      marca: [''],
-      modelo: [''],
-      subCategoriaId: [''],
+      caracteristica: [''],
       color: [''],
       descripcion: [''],
-      caracteristica: [''],
+      id: [null],
+      link: [''],
+      marca: [''],
+      modelo: [''],
+      nombre: [''],
       precioUSD: [''],
       sku: [''],
-      link: [''],
+      subCategoriaId: [''],
     });
   }
 
   ngOnInit(): void {
-    // Cargar las subcategorías
     this.subCategoriaService
       .getSubCategorias()
       .subscribe((subCategorias: Subcategoria[]) => {
