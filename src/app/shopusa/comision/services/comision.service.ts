@@ -1,56 +1,53 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs';
+
 import { Comision } from '../../interfaces/comision.interface';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ComisionService {
-  private API_URL = 'http://localhost:8080/api/comisiones'; // La URL del backend
-  private token = localStorage.getItem('token'); // Obtener el token de autenticación
+
+  private API_URL = `${environment.apiUrl}/comisiones`;
 
   constructor(private http: HttpClient) {}
 
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  }
   getComisiones(): Observable<Comision[]> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.get<Comision[]>(this.API_URL, {
+      headers: this.getHeaders(),
     });
-    return this.http.get<Comision[]>(this.API_URL, { headers });
   }
-
   getComisionById(id: string): Observable<Comision> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.get<Comision>(`${this.API_URL}/${id}`, {
+      headers: this.getHeaders(),
     });
-    return this.http.get<Comision>(`${this.API_URL}/${id}`, { headers });
   }
-
   createComision(comision: Comision): Observable<Comision> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.post<Comision>(this.API_URL, comision, {
+      headers: this.getHeaders(),
     });
-    return this.http.post<Comision>(this.API_URL, comision, { headers });
   }
   updateComision(comision: Comision, id: string): Observable<Comision> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
-    });
     return this.http.put<Comision>(`${this.API_URL}/${id}`, comision, {
-      headers,
+      headers: this.getHeaders(),
     });
   }
   deleteComision(id: string): Observable<Comision> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.delete<Comision>(`${this.API_URL}/${id}`, {
+      headers: this.getHeaders(),
     });
-    return this.http.delete<Comision>(`${this.API_URL}/${id}`, { headers });
   }
-    generateXlsx() {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
-    });
+  generateXlsx() {
     return this.http.get<Blob>(
       `http://localhost:8080/api/excel/export/comisiones`,
-      { headers, responseType: 'blob' as 'json' }
+      { headers: this.getHeaders(), responseType: 'blob' as 'json' }
     );
   }
 }

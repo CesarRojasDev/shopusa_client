@@ -4,53 +4,50 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Categoria } from '../../interfaces/comision.interface';
+import { environment } from '../../../../environments/environment';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class CategoriaService {
-    
-  private API_URL = 'http://localhost:8080/api/categorias'; // La URL del backend
-  private token = localStorage.getItem('token'); // Obtener el token de autenticación
-    
+
+  private API_URL = `${environment.apiUrl}/categorias`;
+
   constructor(private http: HttpClient) {}
 
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  }
   getCategorias(): Observable<Categoria[]> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.get<Categoria[]>(this.API_URL, {
+      headers: this.getHeaders(),
     });
-    return this.http.get<Categoria[]>(this.API_URL, { headers });
   }
-
   getCategoriaById(id: string): Observable<Categoria> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.get<Categoria>(`${this.API_URL}/${id}`, {
+      headers: this.getHeaders(),
     });
-    return this.http.get<Categoria>(`${this.API_URL}/${id}`, { headers });
   }
-
-  deleteCategoria(id: string): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+  deleteCategoria(id: string): Observable<Categoria> {
+    return this.http.delete<Categoria>(`${this.API_URL}/${id}`, {
+      headers: this.getHeaders(),
     });
-    return this.http.delete(`${this.API_URL}/${id}`, { headers });
   }
-
   createCategoria(categoria: Categoria): Observable<Categoria> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.post<Categoria>(this.API_URL, categoria, {
+      headers: this.getHeaders(),
     });
-    return this.http.post<any>(this.API_URL, categoria, { headers });
   }
   updateCategoria(categoria: Categoria, id: string): Observable<Categoria> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.put<Categoria>(`${this.API_URL}/${id}`, categoria, {
+      headers: this.getHeaders(),
     });
-    return this.http.put<any>(`${this.API_URL}/${id}`, categoria, { headers });
   }
-    generateXlsx(){
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
-    });
-    return this.http.get<Blob>(`http://localhost:8080/api/excel/export/categorias`, { headers,  responseType: 'blob' as 'json' });
+  generateXlsx() {
+    return this.http.get<Blob>(
+      `http://localhost:8080/api/excel/export/categorias`,
+      { headers: this.getHeaders(), responseType: 'blob' as 'json' }
+    );
   }
-
 }

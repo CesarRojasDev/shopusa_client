@@ -4,56 +4,51 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Plataforma } from '../../interfaces/comision.interface';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class PlataformaService {
-  private API_URL = 'http://localhost:8080/api/plataformas'; // La URL del backend
-  private token = localStorage.getItem('token'); // Obtener el token de autenticación
+
+  private API_URL = `${environment.apiUrl}/plataformas`;
 
   constructor(private http: HttpClient) {}
 
-  getPlataformas(): Observable<Plataforma[]> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
     });
-    return this.http.get<Plataforma[]>(this.API_URL, { headers });
+  }
+
+  getPlataformas(): Observable<Plataforma[]> {
+    return this.http.get<Plataforma[]>(this.API_URL, {
+      headers: this.getHeaders(),
+    });
   }
   getPlataformaById(id: string): Observable<Plataforma> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.get<Plataforma>(`${this.API_URL}/${id}`, {
+      headers: this.getHeaders(),
     });
-    return this.http.get<Plataforma>(`${this.API_URL}/${id}`, { headers });
   }
-
   createPlataforma(plataforma: Plataforma): Observable<Plataforma> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.post<Plataforma>(this.API_URL, plataforma, {
+      headers: this.getHeaders(),
     });
-    return this.http.post<Plataforma>(this.API_URL, plataforma, { headers });
   }
-
   deletePlataforma(id: string): Observable<Plataforma> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.delete<Plataforma>(`${this.API_URL}/${id}`, {
+      headers: this.getHeaders(),
     });
-    return this.http.delete<Plataforma>(`${this.API_URL}/${id}`, { headers });
   }
-
   updatePlataforma(plataforma: Plataforma, id: string): Observable<Plataforma> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
-    });
     return this.http.put<Plataforma>(`${this.API_URL}/${id}`, plataforma, {
-      headers,
+      headers: this.getHeaders(),
     });
   }
   generateXlsx() {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
-    });
     return this.http.get<Blob>(
       `http://localhost:8080/api/excel/export/plataformas`,
-      { headers, responseType: 'blob' as 'json' }
+      { headers: this.getHeaders(), responseType: 'blob' as 'json' }
     );
   }
 }

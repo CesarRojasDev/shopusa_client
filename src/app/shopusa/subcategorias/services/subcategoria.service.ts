@@ -1,58 +1,57 @@
-import { Injectable } from '@angular/core';
-import { Subcategoria } from '../../interfaces/subcategoria.interface';
-import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs';
+
+import { Subcategoria } from '../../interfaces/subcategoria.interface';
+
+import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SubcategoriaService {
-  private API_URL = 'http://localhost:8080/api/subcategorias'; // La URL del backend
-  private token = localStorage.getItem('token'); // Obtener el token de autenticación
+
+  private API_URL = `${environment.apiUrl}/subcategorias`;
 
   constructor(private http: HttpClient) {}
 
-  getSubCategorias(): Observable<Subcategoria[]> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
     });
-    return this.http.get<Subcategoria[]>(this.API_URL, { headers });
+  }
+  getSubCategorias(): Observable<Subcategoria[]> {
+    return this.http.get<Subcategoria[]>(this.API_URL, {
+      headers: this.getHeaders(),
+    });
   }
   getSubcategoriaById(id: string): Observable<Subcategoria> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.get<Subcategoria>(`${this.API_URL}/${id}`, {
+      headers: this.getHeaders(),
     });
-    return this.http.get<Subcategoria>(`${this.API_URL}/${id}`, { headers });
   }
-  deleteSubcategoria(id: string): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+  deleteSubcategoria(id: string): Observable<Subcategoria> {
+    return this.http.delete<Subcategoria>(`${this.API_URL}/${id}`, {
+      headers: this.getHeaders(),
     });
-    return this.http.delete(`${this.API_URL}/${id}`, { headers });
   }
-
   createSubcategoria(subcategoria: Subcategoria): Observable<Subcategoria> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    return this.http.post<Subcategoria>(this.API_URL, subcategoria, {
+      headers: this.getHeaders(),
     });
-    return this.http.post<any>(this.API_URL, subcategoria, { headers });
   }
   updateSubcategoria(
     subcategoria: Subcategoria,
     id: string
   ): Observable<Subcategoria> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
-    });
-    return this.http.put<any>(`${this.API_URL}/${id}`, subcategoria, {
-      headers,
+    return this.http.put<Subcategoria>(`${this.API_URL}/${id}`, subcategoria, {
+      headers: this.getHeaders(),
     });
   }
   generateXlsx() {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
-    });
     return this.http.get<Blob>(
       `http://localhost:8080/api/excel/export/subcategorias`,
-      { headers, responseType: 'blob' as 'json' }
+      { headers: this.getHeaders(), responseType: 'blob' as 'json' }
     );
   }
 }
