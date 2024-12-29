@@ -36,13 +36,11 @@ export class SubcategoriasFormComponent {
   }
 
   ngOnInit(): void {
-    // Cargar las categorías
     this.categoriaService
       .getCategorias()
       .subscribe((categorias: Categoria[]) => {
         this.categorias = categorias;
       });
-
       this.activateRoute.params.subscribe(({ id }) => {
         if (id) {
           this.isEditMode = true;
@@ -56,8 +54,6 @@ export class SubcategoriasFormComponent {
             });
         }
       });
-    
-
   }
   onSave(): void {
     if(this.isEditMode){

@@ -53,4 +53,13 @@ export class PublicacionService {
       { headers }
     );
   }
+  generateXlsx() {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.get<Blob>(
+      `http://localhost:8080/api/excel/export/publicaciones`,
+      { headers, responseType: 'blob' as 'json' }
+    );
+  }
 }

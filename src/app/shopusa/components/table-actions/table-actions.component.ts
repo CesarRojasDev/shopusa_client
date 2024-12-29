@@ -8,4 +8,5 @@ export class TableActionsComponent {
   @Input() title: string = '';
   @Input() totalRegistros: number = 0;
   @Input() urlNuevo: string = '';
+  @Input() exportFunction: () => void = () => {};
 }

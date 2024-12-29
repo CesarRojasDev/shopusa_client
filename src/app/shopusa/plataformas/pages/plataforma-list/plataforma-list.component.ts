@@ -26,4 +26,14 @@ export class PlataformaListComponent implements OnInit {
       );
     });
   }
+   generateXlsx(): void {
+    this.plataformaService.generateXlsx().subscribe((blob: Blob) => {
+      const url = window.URL.createObjectURL(blob); // Crear URL para descargar el archivo
+      const a = document.createElement('a'); // Crear elemento <a> para el archivo
+      a.href = url; // Asignar URL al elemento <a>
+      a.download = 'plataformas.xlsx'; // Nombre del archivo
+      a.click(); // Descargar el archivo
+      window.URL.revokeObjectURL(url); // Desconectar la URL
+    });
+  }
 }

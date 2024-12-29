@@ -46,5 +46,11 @@ export class CategoriaService {
     });
     return this.http.put<any>(`${this.API_URL}/${id}`, categoria, { headers });
   }
+    generateXlsx(){
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.get<Blob>(`http://localhost:8080/api/excel/export/categorias`, { headers,  responseType: 'blob' as 'json' });
+  }
 
 }

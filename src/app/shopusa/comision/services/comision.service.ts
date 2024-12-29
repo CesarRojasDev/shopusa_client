@@ -44,4 +44,13 @@ export class ComisionService {
     });
     return this.http.delete<Comision>(`${this.API_URL}/${id}`, { headers });
   }
+    generateXlsx() {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.get<Blob>(
+      `http://localhost:8080/api/excel/export/comisiones`,
+      { headers, responseType: 'blob' as 'json' }
+    );
+  }
 }

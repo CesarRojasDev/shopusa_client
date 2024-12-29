@@ -5,14 +5,22 @@
 </ng-template>
 
 <div class="text-center mt-24">
-  <h1
-    class="text-4xl md:text-3xl font-bold text-blue-gray-900 hover:scale-110 transition ease-in-out"
-  >
-    PRODUCTOS SHOPUSA
-  </h1>
-  <p class="text-lg opacity-60 text-astronaut-950 mt-4">
-    Inventario actualizado 11-12-2024
-  </p>
+  <div class="flex flex-col justify-center items-center gap-4">
+    <h1
+      class="text-4xl md:text-3xl font-bold text-blue-gray-900 hover:scale-110 transition ease-in-out"
+    >
+      PRODUCTOS SHOPUSA
+    </h1>
+    <p class="text-lg opacity-60 text-astronaut-950 mt-4">
+      Inventario actualizado 25-12-2024
+    </p>
+    <button
+      (click)="generateXlsx()"
+      class="bg-monza-500 text-white px-6 py-2 rounded-lg hover:bg-monza-600 active:bg-monza-700 transition w-full sm:w-auto"
+    >
+      Decargar Excel
+    </button>
+  </div>
   <div class="flex justify-center mt-6 items-center p-6 w-full">
     <div class="flex justify-between items-center gap-4">
       <!-- Filtro por subcategoría -->
@@ -47,6 +55,12 @@
           <option value="precioSoles,desc">Precio Soles (Descendente)</option>
         </select>
       </div>
+      <input
+        type="text"
+        class="w-full rounded-lg border border-gray-300 p-3 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
+        placeholder="Buscar producto"
+        (input)="onNameSearch($event)"
+      />
     </div>
   </div>
 

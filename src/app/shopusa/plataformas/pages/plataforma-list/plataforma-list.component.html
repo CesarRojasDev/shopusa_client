@@ -1,5 +1,10 @@
-<div class="p-12 ">
-  <shopusa-table-actions title="Plataformas" [totalRegistros]="plataformas.length" [urlNuevo]="'/shopusa/plataformas/crear'"/>
+<div class="p-12">
+  <shopusa-table-actions
+    title="Plataformas"
+    [totalRegistros]="plataformas.length"
+    [urlNuevo]="'/shopusa/plataformas/crear'"
+    [exportFunction]="generateXlsx.bind(this)"
+  />
   <div
     class="relative flex flex-col w-full h-auto overflow-y-auto text-gray-700 bg-white shadow-lg rounded-lg bg-clip-border"
   >

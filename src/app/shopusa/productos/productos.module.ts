@@ -6,6 +6,7 @@ import { ProductoDetailsComponent } from './pages/producto-details/producto-deta
 import { ProductosFormComponent } from './pages/productos-form/productos-form.component';
 import { ProductosListComponent } from './pages/productos-list/productos-list.component';
 import { ProductosRoutingModule } from './productos-routing.module';
+import { ShopusaModule } from "../shopusa.module";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ProductosRoutingModule } from './productos-routing.module';
     FormsModule,
     ProductosRoutingModule,
     ReactiveFormsModule,
-  ],
+    ShopusaModule
+],
 })
 export class ProductosModule {}

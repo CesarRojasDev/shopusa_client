@@ -27,7 +27,12 @@ getProducts(): Observable<Producto[]> {
     });
     return this.http.get<Producto[]>(this.API_URL, { headers });
   }
-
+getProductsByName(name: string): Observable<ProductResponse> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.get<ProductResponse>(`${this.API_URL}/search?nombre=${name}`, { headers });
+  }
   getProductById(id: string): Observable<Producto> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
@@ -60,5 +65,11 @@ getProducts(): Observable<Producto[]> {
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
     });
     return this.http.delete<Producto>(`${this.API_URL}/${id}`, { headers });
+  }
+  generateXlsx(){
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    return this.http.get<Blob>(`http://localhost:8080/api/excel/export/productos`, { headers,  responseType: 'blob' as 'json' });
   }
 }

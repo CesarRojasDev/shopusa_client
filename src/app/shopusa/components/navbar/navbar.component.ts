@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { AuthService } from '../../../auth/service/auth.service';
 
 @Component({
@@ -7,8 +8,10 @@ import { AuthService } from '../../../auth/service/auth.service';
 })
 export class NavbarComponent implements OnInit {
   public isUserMenuOpen = false;
-  public userName: string = ''; // Nombre de usuario dinámico
-  constructor(private authService: AuthService) {}
+  public userName: string = '';
+  constructor(
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe((user) => {

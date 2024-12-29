@@ -3,6 +3,7 @@
     title="Categorias"
     [totalRegistros]="categorias.length"
     [urlNuevo]="'/shopusa/categorias/crear'"
+    [exportFunction]="generateXlsx.bind(this)"
   />
   <div
     class="relative flex flex-col w-full h-auto overflow-y-auto text-gray-700 bg-white shadow-lg rounded-lg bg-clip-border"

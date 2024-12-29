@@ -32,6 +32,7 @@ export class ProductosFormComponent implements OnInit {
       id: [null],
       link: [''],
       marca: [''],
+      stock: ['4'],
       modelo: [''],
       nombre: [''],
       precioUSD: [''],

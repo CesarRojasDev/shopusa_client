@@ -8,19 +8,15 @@ import { ComisionService } from '../../services/comision.service';
   templateUrl: './comision-list.component.html',
 })
 export class ComisionListComponent implements OnInit {
-
   public comisiones: Comision[] = [];
 
-  constructor(
-    private comisionService: ComisionService,
-
-  ) {}
+  constructor(private comisionService: ComisionService) {}
 
   ngOnInit(): void {
-    this.comisionService.getComisiones().subscribe((comisiones: Comision[]) => { 
+    this.comisionService.getComisiones().subscribe((comisiones: Comision[]) => {
       this.comisiones = comisiones;
-      console.log(comisiones)
-    })
+      console.log(comisiones);
+    });
   }
   deleteComision(id: string): void {
     this.comisionService.deleteComision(id).subscribe((response) => {
@@ -30,5 +26,14 @@ export class ComisionListComponent implements OnInit {
       );
     });
   }
-
+  generateXlsx(): void {
+    this.comisionService.generateXlsx().subscribe((blob: Blob) => {
+      const url = window.URL.createObjectURL(blob); // Crear URL para descargar el archivo
+      const a = document.createElement('a'); // Crear elemento <a> para el archivo
+      a.href = url; // Asignar URL al elemento <a>
+      a.download = 'comisiones.xlsx'; // Nombre del archivo
+      a.click(); // Descargar el archivo
+      window.URL.revokeObjectURL(url); // Desconectar la URL
+    });
+  }
 }

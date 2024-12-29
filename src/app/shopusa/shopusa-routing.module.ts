@@ -43,6 +43,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./imagenes/imagenes.module').then((m) => m.ImagenesModule),
   },
+  {
+    path: '',
+    redirectTo: 'productos/listado',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
