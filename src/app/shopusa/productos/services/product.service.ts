@@ -11,27 +11,44 @@ import { ProductResponse } from '../../interfaces/product-response.interface';
 export class ProductService {
   private API_URL = 'http://localhost:8080/api/productos'; // La URL del backend
   private token = localStorage.getItem('token'); // Obtener el token de autenticación
-  
+
   constructor(private http: HttpClient) {}
 
-  getProductsPaginados(page: number, size: number, sort: string): Observable<ProductResponse> {
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
-  });
-  const params = { page: page.toString(), size: size.toString(), sort };
-  return this.http.get<ProductResponse>(`${this.API_URL}/paginados`, { headers, params });
-}
-getProducts(): Observable<Producto[]> {
+  getProductsPaginados(
+    page: number,
+    size: number,
+    sort: string
+  ): Observable<ProductResponse> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    const params = { page: page.toString(), size: size.toString(), sort };
+    return this.http.get<ProductResponse>(`${this.API_URL}/paginados`, {
+      headers,
+      params,
+    });
+  }
+  getProducts(): Observable<Producto[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
     });
     return this.http.get<Producto[]>(this.API_URL, { headers });
   }
-getProductsByName(name: string): Observable<ProductResponse> {
+  getProductsByName(
+    name: string,
+    page: number,
+    size: number,
+    sort: string
+  ): Observable<ProductResponse> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
     });
-    return this.http.get<ProductResponse>(`${this.API_URL}/search?nombre=${name}`, { headers });
+
+    const params = { page: page.toString(), size: size.toString(), sort };
+    return this.http.get<ProductResponse>(
+      `${this.API_URL}/search?nombre=${name}`,
+      { headers, params }
+    );
   }
   getProductById(id: string): Observable<Producto> {
     const headers = new HttpHeaders({
@@ -45,7 +62,21 @@ getProductsByName(name: string): Observable<ProductResponse> {
     });
     return this.http.get<Producto>(`${this.API_URL}/sku/${sku}`, { headers });
   }
-
+  getProductsBySubcategory(
+    id: string,
+    page: number,
+    size: number,
+    sort: string
+  ): Observable<ProductResponse> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
+    });
+    const params = { page: page.toString(), size: size.toString(), sort };
+    return this.http.get<ProductResponse>(
+      `${this.API_URL}/filter?subcategoria=${id}`,
+      { headers, params }
+    );
+  }
   createProduct(product: Producto): Observable<Producto> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
@@ -66,10 +97,13 @@ getProductsByName(name: string): Observable<ProductResponse> {
     });
     return this.http.delete<Producto>(`${this.API_URL}/${id}`, { headers });
   }
-  generateXlsx(){
+  generateXlsx() {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`, // Agregar el token a los encabezados
     });
-    return this.http.get<Blob>(`http://localhost:8080/api/excel/export/productos`, { headers,  responseType: 'blob' as 'json' });
+    return this.http.get<Blob>(
+      `http://localhost:8080/api/excel/export/productos`,
+      { headers, responseType: 'blob' as 'json' }
+    );
   }
 }

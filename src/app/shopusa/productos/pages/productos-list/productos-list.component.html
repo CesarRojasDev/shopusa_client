@@ -6,12 +6,10 @@
 
 <div class="text-center mt-24">
   <div class="flex flex-col justify-center items-center gap-4">
-    <h1
-      class="text-4xl md:text-3xl font-bold text-blue-gray-900 hover:scale-110 transition ease-in-out"
-    >
+    <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
       PRODUCTOS SHOPUSA
     </h1>
-    <p class="text-lg opacity-60 text-astronaut-950 mt-4">
+    <p class="leading-7 [&:not(:first-child)]:mt-6">
       Inventario actualizado 25-12-2024
     </p>
     <button
@@ -21,43 +19,53 @@
       Decargar Excel
     </button>
   </div>
-  <div class="flex justify-center mt-6 items-center p-6 w-full">
-    <div class="flex justify-between items-center gap-4">
-      <!-- Filtro por subcategoría -->
-      <div class="flex items-center">
-        <p class="mr-2">Filtrar por subcategoría:</p>
-        <select
-          class="border-gray-300 rounded-lg border p-2"
-          (change)="onSubcategoryChange($event)"
+  <div
+    class="flex flex-col sm:flex-row justify-center mt-6 items-center p-6 w-full gap-6"
+  >
+    <!-- Filtro por subcategoría -->
+    <div class="flex flex-col sm:flex-row items-center gap-4">
+      <label class="text-gray-700 dark:text-gray-200" for="subcategory-select">
+        Subcategoría:
+      </label>
+      <select
+        id="subcategory-select"
+        class="w-full sm:w-auto border-gray-300 rounded-lg border p-2 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
+        (change)="onSubcategoryChange($event)"
+      >
+        <option value="todos">Todas</option>
+        <option
+          *ngFor="let subcategoria of subcategorias"
+          [value]="subcategoria.id"
         >
-          <option value="todos">Todas</option>
-          <option
-            *ngFor="let subcategoria of subcategorias"
-            [value]="subcategoria.id"
-          >
-            {{ subcategoria.nombre }}
-          </option>
-        </select>
-      </div>
+          {{ subcategoria.nombre }}
+        </option>
+      </select>
+    </div>
 
-      <!-- Ordenar por -->
-      <div class="flex items-center">
-        <p class="mr-2">Ordenar por:</p>
-        <select
-          class="border-gray-300 rounded-lg border p-2"
-          (change)="onSortChange($event)"
-        >
-          <option value="nombre,asc">Nombre (Ascendente)</option>
-          <option value="nombre,desc">Nombre (Descendente)</option>
-          <option value="precioUSD,asc">Precio USD (Ascendente)</option>
-          <option value="precioUSD,desc">Precio USD (Descendente)</option>
-          <option value="precioSoles,asc">Precio Soles (Ascendente)</option>
-          <option value="precioSoles,desc">Precio Soles (Descendente)</option>
-        </select>
-      </div>
+    <!-- Ordenar por -->
+    <div class="flex flex-col sm:flex-row items-center gap-4">
+      <label class="text-gray-700 dark:text-gray-200" for="sort-select">
+        Ordenar por:
+      </label>
+      <select
+        id="sort-select"
+        class="w-full sm:w-auto border-gray-300 rounded-lg border p-2 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
+        (change)="onSortChange($event)"
+      >
+        <option value="nombre,asc">Nombre (Ascendente)</option>
+        <option value="nombre,desc">Nombre (Descendente)</option>
+        <option value="precioUSD,asc">Precio USD (Ascendente)</option>
+        <option value="precioUSD,desc">Precio USD (Descendente)</option>
+        <option value="precioSoles,asc">Precio Soles (Ascendente)</option>
+        <option value="precioSoles,desc">Precio Soles (Descendente)</option>
+      </select>
+    </div>
+
+    <!-- Buscar producto -->
+    <div class="flex w-full sm:w-auto items-center gap-4">
       <input
         type="text"
-        class="w-full rounded-lg border border-gray-300 p-3 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
+        class="w-full sm:w-auto rounded-lg border border-gray-300 p-3 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
         placeholder="Buscar producto"
         (input)="onNameSearch($event)"
       />
@@ -98,6 +106,7 @@
                 [src]="product.imagenesUrls[0]"
                 alt="{{ product.nombre }}"
                 class="hover:scale-110 transition ease-in-out"
+                [ngClass]="{ 'opacity-50 grayscale': product.stock === 0 }"
                 loading="lazy"
               />
             </picture>
@@ -107,11 +116,9 @@
             class="p-6 flex-grow bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
           >
             <div class="flex items-start justify-between mb-4">
-              <p
-                class="block font-sans text-lg md:text-xl font-semibold leading-tight text-gray-900"
-              >
+              <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
                 {{ product.nombre.slice(0, 40).concat("...") }}
-              </p>
+              </h4>
             </div>
 
             <div class="flex items-center justify-between mb-4">
@@ -136,6 +143,11 @@
               class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80"
             >
               <span class="font-semibold">SKU:</span> {{ product.sku }}
+            </p>
+            <p
+              class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80"
+            >
+              <span class="font-semibold">Stock:</span> {{ product.stock }}
             </p>
             <div class="mt-8">
               <a

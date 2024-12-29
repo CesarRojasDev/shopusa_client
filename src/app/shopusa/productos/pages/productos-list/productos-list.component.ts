@@ -12,7 +12,7 @@ import { SubcategoriaService } from '../../../subcategorias/services/subcategori
   templateUrl: './productos-list.component.html',
 })
 export class ProductosListComponent implements OnInit {
-  products: Producto[] = [];
+   products: Producto[] = [];
   subcategorias: Subcategoria[] = [];
   totalElements: number = 0; // Total de elementos
   totalPages: number = 0; // Total de páginas
@@ -33,49 +33,58 @@ export class ProductosListComponent implements OnInit {
     this.loadProducts();
     this.loadSubcategories();
 
-      this.searchSubject.pipe(debounceTime(300)).subscribe((term: string) => {
-      this.loadProductsByName(term);
+    this.searchSubject.pipe(debounceTime(300)).subscribe((term: string) => {
+      this.searchTerm = term;
+      this.page = 0; // Reiniciar a la primera página
+      this.applyFilters();
     });
   }
 
   generateXlsx(): void {
     this.productService.generateXlsx().subscribe((blob: Blob) => {
-      const url = window.URL.createObjectURL(blob); // Crear URL para descargar el archivo
-      const a = document.createElement('a'); // Crear elemento <a> para el archivo
-      a.href = url; // Asignar URL al elemento <a>
-      a.download = 'productos.xlsx'; // Nombre del archivo
-      a.click(); // Descargar el archivo
-      window.URL.revokeObjectURL(url); // Desconectar la URL
-    }
-    );
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'productos.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
-  
 
   loadProducts(): void {
-    // Llamada al servicio con el filtro por subcategoría
     this.productService
-      .getProductsPaginados(this.page, this.size, this.sort )
+      .getProductsPaginados(this.page, this.size, this.sort)
       .subscribe((response) => {
-        console.log(response);
         this.products = response.content;
         this.totalElements = response.totalElements;
         this.totalPages = response.totalPages;
-        this.updatePages(); // Actualizar páginas dinámicas
+        this.updatePages();
       });
   }
 
   loadProductsByName(name: string): void {
-    // Llamada al servicio con el filtro por subcategoría
     this.productService
-      .getProductsByName(name)
+      .getProductsByName(name, this.page, this.size, this.sort)
       .subscribe((response: ProductResponse) => {
-        console.log(response);
         this.products = response.content;
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.updatePages();
+      });
+  }
+
+  loadProductsBySubcategory(id: string): void {
+    this.productService
+      .getProductsBySubcategory(id, this.page, this.size, this.sort)
+      .subscribe((response: ProductResponse) => {
+        this.products = response.content;
+        this.totalElements = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.updatePages();
       });
   }
 
   loadSubcategories(): void {
-    // Obtener las subcategorías disponibles
     this.subcategoriaService.getSubCategorias().subscribe((subcategories) => {
       this.subcategorias = subcategories;
     });
@@ -83,49 +92,58 @@ export class ProductosListComponent implements OnInit {
 
   onNameSearch(event: any): void {
     const term = event.target.value.trim();
-    this.searchSubject.next(term); // Emitir el término de búsqueda
+    this.searchSubject.next(term);
   }
-  // Cambiar la subcategoría seleccionada
+
   onSubcategoryChange(event: any): void {
     this.selectedSubcategory = event.target.value;
-    this.page = 0; // Reiniciar a la primera página cuando se cambia la subcategoría
-    this.loadProducts(); // Volver a cargar los productos con la nueva subcategoría
+    this.page = 0; // Reiniciar a la primera página
+    this.applyFilters();
   }
 
-  // Cambiar el criterio de ordenación
   onSortChange(event: any): void {
-    this.sort = event.target.value; // Obtener el valor seleccionado
-    this.page = 0; // Reiniciar a la primera página cuando se cambia el orden
-    this.loadProducts(); // Volver a cargar los productos con la nueva ordenación
+    this.sort = event.target.value;
+    this.page = 0; // Reiniciar a la primera página
+    this.applyFilters();
   }
 
-  // Métodos para manejar la paginación
   nextPage(): void {
     if (this.page < this.totalPages - 1) {
       this.page++;
-      this.loadProducts();
+      this.applyFilters();
     }
   }
 
   previousPage(): void {
     if (this.page > 0) {
       this.page--;
-      this.loadProducts();
+      this.applyFilters();
     }
   }
 
   goToPage(pageIndex: number): void {
     this.page = pageIndex;
-    this.loadProducts();
+    this.applyFilters();
   }
 
   changePageSize(size: number): void {
     this.size = size;
     this.page = 0; // Reiniciar a la primera página
-    this.loadProducts();
+    this.applyFilters();
   }
 
   updatePages(): void {
     this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
+
+  applyFilters(): void {
+    if (this.selectedSubcategory !== 'todos') {
+      this.loadProductsBySubcategory(this.selectedSubcategory);
+    } else if (this.searchTerm) {
+      this.loadProductsByName(this.searchTerm);
+    } else {
+      this.loadProducts();
+    }
+  }
+ 
 }
