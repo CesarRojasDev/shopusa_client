@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Subcategoria } from '../../../interfaces/subcategoria.interface';
 import { SubcategoriaService } from '../../../subcategorias/services/subcategoria.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-subcategorias-list',
@@ -9,7 +10,6 @@ import { SubcategoriaService } from '../../../subcategorias/services/subcategori
 })
 export class SubcategoriasListComponent implements OnInit {
   public subcategorias: Subcategoria[] = [];
-
 
   constructor(private subcategoriaService: SubcategoriaService) {}
   ngOnInit(): void {
@@ -21,14 +21,18 @@ export class SubcategoriasListComponent implements OnInit {
       });
   }
   generateXlsx(): void {
-    this.subcategoriaService.generateXlsx().subscribe((blob: Blob) => {
-      const url = window.URL.createObjectURL(blob); // Crear URL para descargar el archivo
-      const a = document.createElement('a'); // Crear elemento <a> para el archivo
-      a.href = url; // Asignar URL al elemento <a>
-      a.download = 'subcategorias.xlsx'; // Nombre del archivo
-      a.click(); // Descargar el archivo
-      window.URL.revokeObjectURL(url); // Desconectar la URL
-    });
+    this.subcategoriaService
+      .generateXlsx()
+      .subscribe((response: HttpResponse<Blob>) => {
+        const blob = response.body!;
+        const fileName = response.headers.get('X-File-Name')!;
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
   }
 
   deleteSubcategoria(id: string): void {

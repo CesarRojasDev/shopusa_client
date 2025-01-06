@@ -1,7 +1,7 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { ActivatedRoute, Router } from '@angular/router';
 import { Producto } from '../../../interfaces/producto.interface';
 import { ProductService } from '../../services/product.service';
 import { Subcategoria } from '../../../interfaces/subcategoria.interface';
@@ -48,7 +48,6 @@ export class ProductosFormComponent implements OnInit {
         this.subCategorias = subCategorias;
       });
 
-    // Si estamos en modo edición, cargar los datos del producto
     this.activateRoute.params.subscribe(({ id }) => {
       if (id) {
         this.isEditMode = true;
@@ -71,7 +70,7 @@ export class ProductosFormComponent implements OnInit {
       this.productService.createProduct(this.myForm.value).subscribe(
         (response) => {
           console.log('Producto creado:', response);
-          this.router.navigateByUrl('shopusa/productos/listado'); // Redirigir a la lista de productos
+          this.router.navigateByUrl('shopusa/productos/listado'); 
         },
         (error) => {
           console.error('Error al crear producto:', error);
@@ -84,13 +83,14 @@ export class ProductosFormComponent implements OnInit {
     this.productService.updateProducto(this.myForm.value, this.id).subscribe(
       (response) => {
         console.log('Producto actualizado:', response);
-        this.router.navigateByUrl('shopusa/productos/listado'); // Redirigir a la lista de productos
+        this.router.navigateByUrl('shopusa/productos/listado');
       },
       (error) => {
         console.error('Error al actualizar producto:', error);
       }
     );
   }
+
   onReset(): void {
     this.myForm.reset();
   }

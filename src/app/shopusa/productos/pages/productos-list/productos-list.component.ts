@@ -6,13 +6,14 @@ import { ProductResponse } from '../../../interfaces/product-response.interface'
 import { ProductService } from '../../services/product.service';
 import { Subcategoria } from '../../../interfaces/subcategoria.interface';
 import { SubcategoriaService } from '../../../subcategorias/services/subcategoria.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'shopusa-productos-list',
   templateUrl: './productos-list.component.html',
 })
 export class ProductosListComponent implements OnInit {
-   products: Producto[] = [];
+  products: Producto[] = [];
   subcategorias: Subcategoria[] = [];
   totalElements: number = 0; // Total de elementos
   totalPages: number = 0; // Total de páginas
@@ -41,14 +42,18 @@ export class ProductosListComponent implements OnInit {
   }
 
   generateXlsx(): void {
-    this.productService.generateXlsx().subscribe((blob: Blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'productos.xlsx';
-      a.click();
-      window.URL.revokeObjectURL(url);
-    });
+    this.productService
+      .generateXlsx()
+      .subscribe((response: HttpResponse<Blob>) => {
+        const blob = response.body!;
+        const fileName = response.headers.get('X-File-Name')!;
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
   }
 
   loadProducts(): void {
@@ -145,5 +150,4 @@ export class ProductosListComponent implements OnInit {
       this.loadProducts();
     }
   }
- 
 }

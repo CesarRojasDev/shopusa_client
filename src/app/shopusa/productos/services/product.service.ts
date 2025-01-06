@@ -10,7 +10,6 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root',
 })
 export class ProductService {
-
   private API_URL = `${environment.apiUrl}/productos`;
 
   constructor(private http: HttpClient) {}
@@ -88,9 +87,10 @@ export class ProductService {
     });
   }
   generateXlsx() {
-    return this.http.get<Blob>(
-      `http://localhost:8080/api/excel/export/productos`,
-      { headers: this.getHeaders(), responseType: 'blob' as 'json' }
-    );
+    return this.http.get<Blob>(`${this.API_URL}/export`, {
+      headers: this.getHeaders(),
+      responseType: 'blob' as 'json',
+      observe: 'response',
+    });
   }
 }

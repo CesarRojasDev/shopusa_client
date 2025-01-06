@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Categoria } from '../../../interfaces/comision.interface';
 import { CategoriaService } from '../../services/categoria.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-categorias-list',
@@ -28,14 +29,18 @@ export class CategoriasListComponent implements OnInit {
       );
     });
   }
-   generateXlsx(): void {
-    this.categoriaService.generateXlsx().subscribe((blob: Blob) => {
-      const url = window.URL.createObjectURL(blob); // Crear URL para descargar el archivo
-      const a = document.createElement('a'); // Crear elemento <a> para el archivo
-      a.href = url; // Asignar URL al elemento <a>
-      a.download = 'categorias.xlsx'; // Nombre del archivo
-      a.click(); // Descargar el archivo
-      window.URL.revokeObjectURL(url); // Desconectar la URL
-    });
+  generateXlsx(): void {
+    this.categoriaService
+      .generateXlsx()
+      .subscribe((response: HttpResponse<Blob>) => {
+        const blob = response.body!;
+        const fileName = response.headers.get('X-File-Name')!;
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
   }
 }

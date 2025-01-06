@@ -9,7 +9,6 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SubcategoriaService {
-
   private API_URL = `${environment.apiUrl}/subcategorias`;
 
   constructor(private http: HttpClient) {}
@@ -49,9 +48,10 @@ export class SubcategoriaService {
     });
   }
   generateXlsx() {
-    return this.http.get<Blob>(
-      `http://localhost:8080/api/excel/export/subcategorias`,
-      { headers: this.getHeaders(), responseType: 'blob' as 'json' }
-    );
+    return this.http.get<Blob>(`${this.API_URL}/export`, {
+      headers: this.getHeaders(),
+      responseType: 'blob' as 'json',
+      observe: 'response'
+    });
   }
 }

@@ -8,7 +8,6 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class PublicacionService {
-
   private API_URL = `${environment.apiUrl}/publicaciones`;
 
   constructor(private http: HttpClient) {}
@@ -51,9 +50,10 @@ export class PublicacionService {
     );
   }
   generateXlsx() {
-    return this.http.get<Blob>(
-      `http://localhost:8080/api/excel/export/publicaciones`,
-      { headers: this.getHeaders(), responseType: 'blob' as 'json' }
-    );
+    return this.http.get<Blob>(`${this.API_URL}/export`, {
+      headers: this.getHeaders(),
+      responseType: 'blob' as 'json',
+      observe: 'response'
+    });
   }
 }
