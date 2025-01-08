@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Categoria } from '../../../interfaces/comision.interface';
+import { Categoria } from '../../../interfaces/categoria.interface';
 import { CategoriaService } from '../../services/categoria.service';
 import { HttpResponse } from '@angular/common/http';
 

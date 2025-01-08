@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, inject  } from '@angular/core';
 
 import { AuthService } from '../../../auth/service/auth.service';
 
@@ -6,20 +6,11 @@ import { AuthService } from '../../../auth/service/auth.service';
   selector: 'shopusa-navbar',
   templateUrl: './navbar.component.html',
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent  {
+  public authService = inject( AuthService );
   public isUserMenuOpen = false;
-  public userName: string = '';
-  constructor(
-    private authService: AuthService,
-  ) {}
+  public user = computed(() => this.authService.currentUser());
 
-  ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe((user) => {
-      if (user) {
-        this.userName = user.username;
-      }
-    });
-  }
   toggleUserMenu() {
     this.isUserMenuOpen = !this.isUserMenuOpen;
   }

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { AuthService } from '../../../../auth/service/auth.service';
-import { Plataforma } from '../../../interfaces/comision.interface';
 import { PlataformaService } from '../../../plataformas/services/plataforma.service';
 import { Producto } from '../../../interfaces/producto.interface';
 import { ProductService } from '../../../productos/services/product.service';
 import { PublicacionService } from '../../services/publicacion.service';
+import { Plataforma } from '../../../interfaces/plataforma.interface';
 
 @Component({
   selector: 'app-publicacion-form',
@@ -17,6 +17,8 @@ export class PublicacionFormComponent implements OnInit {
   public plataformas: Plataforma[] = [];
   public myForm: FormGroup;
   public isPriceCalculated: boolean = false;
+  public user = computed(() => this.authService.currentUser());
+
   constructor(
     private productService: ProductService,
     private plataformaService: PlataformaService,
@@ -30,7 +32,7 @@ export class PublicacionFormComponent implements OnInit {
       productoId: [''],
       plataformaId: [''],
       precio: [''],
-      usuarioId: [''],
+      usuarioId: [],
     });
   }
   ngOnInit(): void {
@@ -48,7 +50,7 @@ export class PublicacionFormComponent implements OnInit {
 
     this.publicacionService.calcularPrecio(productoId, plataformaId).subscribe(
       (response) => {
-        console.log(response)
+        console.log(response);
         const precioCalculado = response.precio;
         this.myForm.patchValue({
           precio: precioCalculado,
@@ -65,11 +67,10 @@ export class PublicacionFormComponent implements OnInit {
   onSave(): void {
     if (!this.isPriceCalculated) return;
 
-    this.authService.getCurrentUser().subscribe((user) => {
-      this.myForm.patchValue({
-        usuarioId: user.id,
-      });
+    this.myForm.patchValue({
+      usuarioId: this.user()?.id,
     });
+
     this.publicacionService.createPublicacion(this.myForm.value).subscribe(
       (response) => {
         console.log('Publicacion creada:', response);

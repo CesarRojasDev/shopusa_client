@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Plataforma } from '../../interfaces/comision.interface';
 import { environment } from '../../../../environments/environment';
+import { Plataforma } from '../../interfaces/plataforma.interface';
 
 @Injectable({ providedIn: 'root' })
 export class PlataformaService {

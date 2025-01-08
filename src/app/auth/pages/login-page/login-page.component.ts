@@ -6,11 +6,10 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styles: ``
+  styles: ``,
 })
 export class LoginPageComponent implements OnInit {
-
-  public myForm: FormGroup
+  public myForm: FormGroup;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -29,7 +28,10 @@ export class LoginPageComponent implements OnInit {
   }
 
   onLogin(): void {
-    this.authService.login(this.myForm.value.username, this.myForm.value.password);
+    this.authService
+      .login(this.myForm.value.username, this.myForm.value.password)
+      .subscribe(() => {
+        console.log('Login exitoso');
+      });
   }
-
 }

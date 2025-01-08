@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+
 import { debounceTime, Subject } from 'rxjs';
 
 import { Producto } from '../../../interfaces/producto.interface';
@@ -6,7 +8,6 @@ import { ProductResponse } from '../../../interfaces/product-response.interface'
 import { ProductService } from '../../services/product.service';
 import { Subcategoria } from '../../../interfaces/subcategoria.interface';
 import { SubcategoriaService } from '../../../subcategorias/services/subcategoria.service';
-import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'shopusa-productos-list',

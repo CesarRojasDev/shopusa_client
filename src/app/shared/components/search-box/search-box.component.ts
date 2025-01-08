@@ -26,6 +26,7 @@ export class SearchBoxComponent {
   }
 
   onKeyPress(searchTerm: string): void {
+    console.log(searchTerm);
     this.debouncer.next(searchTerm);
   }
 }

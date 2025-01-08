@@ -1,7 +1,8 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Categoria } from '../../../interfaces/comision.interface';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+
+import { Categoria } from '../../../interfaces/categoria.interface';
 import { CategoriaService } from '../../../categorias/services/categoria.service';
 import { SubcategoriaService } from '../../services/subcategoria.service';
 

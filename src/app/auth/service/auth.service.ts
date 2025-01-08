@@ -1,58 +1,52 @@
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { UsuarioResponse } from '../../shopusa/interfaces/usuario-response.interface';
+
+import { map, Observable, tap } from 'rxjs';
+
+import { AuthStatus } from '../interfaces/auth-status.enum';
+import { environment } from '../../../environments/environment';
+import { LoginResponse } from '../interfaces/login-response.interface';
+import { Usuario } from '../interfaces/usuario.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private API_URL = 'http://localhost:8080/api/auth/signin';
-  private currentUserSubject = new BehaviorSubject<any>(null); // Mantener usuario actual en memoria
+  private API_URL = `${environment.apiUrl}/auth`;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  private http = inject(HttpClient);
+  private router = inject(Router);
 
-  login(username: string, password: string): void {
-    this.http.post<UsuarioResponse>(this.API_URL, { username, password }).subscribe(
-      (response) => {
-        console.log('Login exitoso:', response);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.usuario)); // Guardar usuario en almacenamiento local
-        this.currentUserSubject.next(response.usuario); // Actualizar usuario actual
+  private _currentUser = signal<Usuario | null>(
+    JSON.parse(localStorage.getItem('user') || 'null')
+  );
+  private _authStatus = signal<AuthStatus>(AuthStatus.checking);
+
+  public currentUser = computed(() => this._currentUser());
+  public authStatus = computed(() => this._authStatus());
+
+  login(username: string, password: string): Observable<boolean> {
+    const url = `${this.API_URL}/signin`;
+
+    return this.http.post<LoginResponse>(url, { username, password }).pipe(
+      tap(({ usuario, token }) => {
+        this._currentUser.set(usuario);
+        this._authStatus.set(AuthStatus.authenticated);
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(usuario));
         this.router.navigateByUrl('shopusa');
-      },
-      (error) => {
-        console.log('Error al login:', error);
-      }
+      }),
+      map(() => true)
     );
   }
 
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    this.currentUserSubject.next(null); // Limpiar usuario actual
-    this.router.navigateByUrl('auth/login');
+    this._currentUser.set(null);
+    this._authStatus.set(AuthStatus.notAuthenticated);
   }
 
-  getCurrentUser() {
-    // Intentar recuperar usuario del almacenamiento local
-    if (!this.currentUserSubject.value) {
-      const user = localStorage.getItem('user');
-      if (user) {
-        this.currentUserSubject.next(JSON.parse(user));
-      }
-    }
-    return this.currentUserSubject.asObservable();
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
   isAdmin(): boolean {
-    const user = localStorage.getItem('user');
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      return parsedUser.role === 'ADMIN'; // Cambia 'ADMIN' según el rol que utilices
-    }
-    return false;
+    return this.currentUser()?.role === 'ADMIN';
   }
 }

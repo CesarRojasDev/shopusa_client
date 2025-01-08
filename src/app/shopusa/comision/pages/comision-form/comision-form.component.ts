@@ -1,10 +1,12 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 
-import { Categoria, Comision, Plataforma, } from '../../../interfaces/comision.interface'; 
+import { Categoria } from '../../../interfaces/categoria.interface';
 import { CategoriaService } from '../../../categorias/services/categoria.service';
+import { Comision } from '../../../interfaces/comision.interface';
 import { ComisionService } from '../../services/comision.service';
+import { Plataforma } from '../../../interfaces/plataforma.interface';
 import { PlataformaService } from '../../../plataformas/services/plataforma.service';
 
 @Component({
