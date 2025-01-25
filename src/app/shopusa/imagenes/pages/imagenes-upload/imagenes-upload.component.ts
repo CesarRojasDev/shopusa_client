@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ImagenesService } from '../../services/imagenes.service';
-import { ProductService } from '../../../productos/services/product.service';
-import { Producto } from '../../../interfaces/producto.interface';
+
 import { CloudinaryService } from '../../services/cloudinary.service';
+import { ImagenesService } from '../../services/imagenes.service';
+import { Producto } from '../../../interfaces/producto.interface';
+import { ProductService } from '../../../productos/services/product.service';
 
 @Component({
   selector: 'shopusa-imagenes-upload',

@@ -4,13 +4,13 @@
   ></div>
 </ng-template>
 
-<div class="text-center mt-24">
+<div class="text-center mt-24 p-6">
   <div class="flex flex-col justify-center items-center gap-4">
     <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
       PRODUCTOS SHOPUSA
     </h1>
     <p class="leading-7 [&:not(:first-child)]:mt-6">
-      Inventario actualizado 08-01-2025
+      Inventario actualizado 24-01-2025
     </p>
     <button
       (click)="generateXlsx()"
@@ -19,17 +19,18 @@
       Decargar Excel
     </button>
   </div>
+
   <div
     class="flex flex-col sm:flex-row justify-center mt-6 items-center p-6 w-full gap-6"
   >
     <!-- Filtro por subcategoría -->
     <div class="flex flex-col sm:flex-row items-center gap-4">
-      <label class="text-gray-700 dark:text-gray-200" for="subcategory-select">
+      <label class="text-gray-700" for="subcategory-select">
         Subcategoría:
       </label>
       <select
         id="subcategory-select"
-        class="w-full sm:w-auto border-gray-300 rounded-lg border p-2 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
+        class="w-full sm:w-auto border-gray-300 rounded-lg border p-2 text-gray-700 focus:ring focus:ring-monza-500 focus:outline-none"
         (change)="onSubcategoryChange($event)"
       >
         <option value="todos">Todas</option>
@@ -44,12 +45,12 @@
 
     <!-- Ordenar por -->
     <div class="flex flex-col sm:flex-row items-center gap-4">
-      <label class="text-gray-700 dark:text-gray-200" for="sort-select">
+      <label class="text-gray-700" for="sort-select">
         Ordenar por:
       </label>
       <select
         id="sort-select"
-        class="w-full sm:w-auto border-gray-300 rounded-lg border p-2 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
+        class="w-full sm:w-auto border-gray-300 rounded-lg border p-2 text-gray-700 focus:ring focus:ring-monza-500 focus:outline-none"
         (change)="onSortChange($event)"
       >
         <option value="nombre,asc">Nombre (Ascendente)</option>
@@ -60,12 +61,11 @@
         <option value="precioSoles,desc">Precio Soles (Descendente)</option>
       </select>
     </div>
-
     <!-- Buscar producto -->
     <div class="flex w-full sm:w-auto items-center gap-4">
       <input
         type="text"
-        class="w-full sm:w-auto rounded-lg border border-gray-300 p-3 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:ring focus:ring-monza-500 focus:outline-none"
+        class="w-full sm:w-auto rounded-lg border border-gray-300 p-3 text-gray-700 focus:ring focus:ring-monza-500 focus:outline-none"
         placeholder="Buscar producto"
         (input)="onNameSearch($event)"
       />
@@ -106,18 +106,18 @@
                 [src]="product.imagenesUrls[0]"
                 alt="{{ product.nombre }}"
                 class="hover:scale-110 transition ease-in-out"
-                [ngClass]="{ 'opacity-50 grayscale': product.stock === 0 }"
+                [ngClass]="{ 'opacity-30 grayscale': product.stock === 0 }"
                 loading="lazy"
               />
             </picture>
           </div>
           <!-- Contenido del producto -->
           <div
-            class="p-6 flex-grow bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
+            class="p-6 flex-grow rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
           >
             <div class="flex items-start justify-between mb-4">
-              <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
-                {{ product.nombre.slice(0, 40).concat("...") }}
+              <h4 class="scroll-m-20 text-xl font-semibold tracking-tight line-clamp-2">
+                {{ product.nombre }}
               </h4>
             </div>
 
@@ -144,18 +144,13 @@
             >
               <span class="font-semibold">SKU:</span> {{ product.sku }}
             </p>
-            <p
-              class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80"
-            >
-              <span class="font-semibold">Stock:</span> {{ product.stock }}
-            </p>
             <div class="mt-8">
               <a
                 [href]="product.link"
                 target="_blank"
                 class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg text-white bg-monza-500 hover:bg-monza-600 active:bg-monza-700 block w-full"
               >
-                Ver en Amazon
+                Comprar
               </a>
             </div>
           </div>

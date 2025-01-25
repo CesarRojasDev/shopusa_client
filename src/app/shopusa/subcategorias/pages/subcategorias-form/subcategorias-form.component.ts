@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Categoria } from '../../../interfaces/categoria.interface';
 import { CategoriaService } from '../../../categorias/services/categoria.service';
 import { SubcategoriaService } from '../../services/subcategoria.service';
+import { Subcategoria } from '../../../interfaces/subcategoria.interface';
 
 @Component({
   selector: 'app-subcategorias-form',
@@ -48,7 +49,7 @@ export class SubcategoriasFormComponent {
           this.id = id;
           this.subCategoriaService
             .getSubcategoriaById(id)
-            .subscribe((subcategoria: any) => {
+            .subscribe((subcategoria: Subcategoria) => {
               if (subcategoria) {
                 this.myForm.patchValue(subcategoria);
               }
@@ -62,8 +63,7 @@ export class SubcategoriasFormComponent {
     }else{
       this.subCategoriaService.createSubcategoria(this.myForm.value).subscribe(
         (response) => {
-          console.log('Subcategoria creada:', response);
-          this.router.navigateByUrl('shopusa/subcategorias/listado'); // Redirigir a la lista de subcategorias
+          this.router.navigateByUrl('shopusa/subcategorias/listado');
         },
         (error) => {
           console.error('Error al crear subcategoria:', error);

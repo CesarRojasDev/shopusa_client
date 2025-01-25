@@ -7,15 +7,17 @@ import { ShopusaRoutingModule } from './shopusa-routing.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidebarItemComponent } from './components/sidebar-item/sidebar-item.component';
 import { TableActionsComponent } from './components/table-actions/table-actions.component';
-import { SharedModule } from "../shared/shared.module";
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [SidebarComponent, LayoutPageComponent, SidebarItemComponent, NavbarComponent,TableActionsComponent ],
-  imports: [
-    CommonModule,
-    ShopusaRoutingModule,
-    SharedModule
-],
-  exports:[TableActionsComponent]
+  declarations: [
+    SidebarComponent,
+    LayoutPageComponent,
+    SidebarItemComponent,
+    NavbarComponent,
+    TableActionsComponent,
+  ],
+  imports: [CommonModule, ShopusaRoutingModule, SharedModule],
+  exports: [TableActionsComponent],
 })
 export class ShopusaModule {}

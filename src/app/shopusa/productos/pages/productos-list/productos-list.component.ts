@@ -79,6 +79,35 @@ export class ProductosListComponent implements OnInit {
       });
   }
 
+  loadProductBySku(sku: string): void {
+    this.productService.getProductBySku(sku).subscribe({
+      next: (product: Producto) => {
+        if (!product) {
+          this.products = [];
+          this.totalElements = 0;
+          this.totalPages = 0;
+          this.updatePages();
+          return;
+        }
+        this.products = [product];
+        this.totalElements = 1;
+        this.totalPages = 1;
+        this.updatePages();
+      },
+      error: (error) => {
+        this.products = [];
+        this.totalElements = 0;
+        this.totalPages = 0;
+        this.updatePages();
+      },
+    });
+  }
+
+  private isSku(term: string): boolean {
+    const skuPattern = /^[A-Za-z]{4}\d+.*$/;
+    return skuPattern.test(term);
+  }
+
   loadProductsBySubcategory(id: string): void {
     this.productService
       .getProductsBySubcategory(id, this.page, this.size, this.sort)
@@ -146,7 +175,11 @@ export class ProductosListComponent implements OnInit {
     if (this.selectedSubcategory !== 'todos') {
       this.loadProductsBySubcategory(this.selectedSubcategory);
     } else if (this.searchTerm) {
-      this.loadProductsByName(this.searchTerm);
+      if (this.isSku(this.searchTerm)) {
+        this.loadProductBySku(this.searchTerm);
+      } else {
+        this.loadProductsByName(this.searchTerm);
+      }
     } else {
       this.loadProducts();
     }
