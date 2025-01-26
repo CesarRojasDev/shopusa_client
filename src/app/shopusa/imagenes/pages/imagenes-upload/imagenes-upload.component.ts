@@ -8,7 +8,6 @@ import { ImagenesService } from '../../services/imagenes.service';
 import { Producto } from '../../../interfaces/producto.interface';
 import { ProductService } from '../../../productos/services/product.service';
 
-
 @Component({
   selector: 'shopusa-imagenes-upload',
   templateUrl: './imagenes-upload.component.html',
@@ -25,6 +24,7 @@ export class ImagenesUploadComponent {
   public isDragging = false; // Variable para cambiar estilos al arrastrar
 
   public isUploading = false;
+  public isUploadedDone = false;
   constructor(
     private imagenesService: ImagenesService,
     private cloudinaryService: CloudinaryService,
@@ -90,11 +90,25 @@ export class ImagenesUploadComponent {
       });
     }
   }
-  copyUrl(url: string): void {
-    navigator.clipboard.writeText(url);
-  }
-  copyAllUrls(): void {
-    navigator.clipboard.writeText(this.urls.join('\n'));
+  copyToClipboard(url: string): void {
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        Swal.fire({
+          title: '¡Copiado!',
+          text: 'URL copiado al portapapeles.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: '¡Error!',
+          text: 'Error al copiar URL.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+        });
+      });
   }
 
   onRemoveImage(previewUrl: string): void {
@@ -158,9 +172,22 @@ export class ImagenesUploadComponent {
           console.log('Imágenes subidas exitosamente:', response);
           this.urls = response; // Guardar las URLs devueltas por el backend
           this.isUploading = false; // Ocultar el spinner
+          this.isUploadedDone = true;
+          Swal.fire({
+            title: 'Éxito!',
+            text: 'Imágenes subidas correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+          });
         },
         (error) => {
           console.error('Error al subir las imágenes:', error);
+          Swal.fire({
+            title: 'Error!',
+            text: 'Error al subir las imágenes.',
+            icon: 'error',
+            confirmButtonText: 'Aceptar',
+          });
           this.isUploading = false; // Ocultar el spinner
         },
       );
@@ -198,6 +225,8 @@ export class ImagenesUploadComponent {
         this.urls = [];
         this.selectedProductoId = '';
         this.selectedImages = [];
+        this.isUploadedDone = false;
+        this.isUploading = false;
       },
       (error) => {
         console.error('Error al asociar imágenes:', error);

@@ -1,200 +1,231 @@
-<shared-loading-spinner *ngIf="isUploading"/>
-<div
-  class="flex h-screen items-center justify-center bg-gray-100 p-6 dark:bg-gray-900"
->
+<shared-loading-spinner *ngIf="isUploading" />
+<div class="flex h-screen items-center justify-center p-6 dark:bg-gray-900">
   <form
     (submit)="onSubmit($event)"
     [formGroup]="myForm"
-    class="w-full max-w-lg rounded-xl border border-gray-300 bg-white p-8 shadow-lg dark:border-gray-700 dark:bg-gray-800"
+    class="animate__animated animate__fadeInUp w-full max-w-lg rounded-xl border border-gray-300 bg-white p-8 shadow-lg dark:border-gray-700 dark:bg-gray-800"
   >
     <!-- Título -->
-    <h2
-      class="mb-6 text-center text-3xl font-bold text-gray-800 dark:text-gray-200"
+    <h1
+      class="scroll-m-20 border-b pb-2 text-center text-3xl font-semibold tracking-tight first:mt-0"
     >
       Subir Imágenes
-    </h2>
-
-    <!-- Zona de Drag & Drop -->
-    <div
-      class="my-6 flex w-full items-center justify-center"
-      (dragover)="onDragOver($event)"
-      (dragleave)="onDragLeave($event)"
-      (drop)="onDrop($event)"
-    >
+    </h1>
+    <div *ngIf="!isUploadedDone">
+      <!-- Zona de Drag & Drop -->
       <div
-        class="flex h-64 w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition duration-200 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-800"
-        [ngClass]="{
-          'border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-800':
-            isDragging,
-        }"
+        class="my-6 flex w-full items-center justify-center"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
       >
-        <div class="flex flex-col items-center justify-center pb-6 pt-5">
-          <svg
-            class="mb-4 h-10 w-10 text-gray-500 dark:text-gray-400"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 16"
-            aria-hidden="true"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-            />
-          </svg>
-          <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            <span class="font-semibold text-blue-600 dark:text-blue-400">
-              Click para subir
-            </span>
-            o arrastra aquí
-          </p>
-          <p class="text-xs text-gray-500 dark:text-gray-400">
-            Estas seleccionando
-            <span class="font-bold text-gray-700 dark:text-gray-300">
-              {{ selectedImages.length }}
-            </span>
-            archivos
-          </p>
-        </div>
-        <input
-          id="dropzone-file"
-          class="hidden"
-          type="file"
-          multiple
-          accept="image/*"
-          (change)="onFileChange($event)"
-        />
-      </div>
-    </div>
-
-    <!-- Previsualización de imágenes -->
-    <div *ngIf="selectedImages.length > 0" class="mb-6">
-      <h3 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
-        Previsualización:
-      </h3>
-      <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
-        <div
-          *ngFor="let preview of selectedImages"
-          class="flex flex-col items-center relative"
+        <label
+          for="dropzone-file"
+          class="flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition duration-200 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-800"
+          [ngClass]="{
+            'border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-800':
+              isDragging,
+          }"
         >
-          <img
-            [src]="preview.previewUrl"
-            class="h-32 w-32 rounded-lg object-cover shadow-md"
-            alt="Imagen seleccionada"
-          />
-          <button
-            (click)="onRemoveImage(preview.previewUrl)"
-            type="button"
-            class="absolute top-0 right-0 z-10 p-2 text-sm text-gray-500 transition duration-200 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-          >
+          <div class="flex flex-col items-center justify-center pb-6 pt-5">
             <svg
-              class="h-4 w-4"
-              aria-hidden="true"
+              class="mb-4 h-10 w-10 text-gray-500 dark:text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+              viewBox="0 0 20 16"
+              aria-hidden="true"
             >
               <path
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
+                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
               />
             </svg>
-          </button>
-        </div>
-      </div>
-      <button
-        (click)="onRemoveAll()"
-        type="button"
-        class="mt-4 w-full rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-lg transition duration-200 hover:bg-red-600 active:bg-red-700"
-      >
-        Eliminar todas
-      </button>
-    </div>
-
-    <!-- Lista de URLs -->
-    <div *ngIf="urls.length > 0" class="mb-6">
-      <h3 class="mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200">
-        URLs de Imágenes Subidas:
-      </h3>
-      <ul class="space-y-2">
-        <li
-          *ngFor="let url of urls"
-          class="text-sm text-gray-600 dark:text-gray-300"
-        >
-          {{ url }}
-        </li>
-      </ul>
-    </div>
-
-    <!-- Selección de Producto -->
-    <div class="relative mb-6" *ngIf="productosSinImagenes.length > 0">
-      <select
-        (change)="onProductoChange($event)"
-        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-blue-500"
-        formControlName="productoId"
-      >
-        <option value="" disabled selected>Seleccione un producto</option>
-        <option
-          *ngFor="let producto of productosSinImagenes"
-          [value]="producto.id"
-        >
-          {{ producto.sku }}
-        </option>
-      </select>
-    </div>
-
-    <!-- Mensaje: Todos los productos tienen imágenes -->
-    <div
-      class="mt-8 text-center text-gray-700 dark:text-gray-300"
-      *ngIf="productosSinImagenes.length === 0"
-    >
-      <div
-        class="mb-4 flex items-center rounded-lg bg-blue-50 p-3 text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400"
-        role="alert"
-      >
-        <svg
-          class="me-3 inline h-4 w-4 shrink-0"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
+            <p
+              class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
+            >
+              <span class="font-semibold text-astronaut-600 dark:text-blue-400">
+                Click para subir
+              </span>
+              o arrastra aquí
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              Estas seleccionando
+              <span class="font-bold text-gray-700 dark:text-gray-300">
+                {{ selectedImages.length }}
+              </span>
+              archivos
+            </p>
+          </div>
+          <input
+            id="dropzone-file"
+            class="hidden"
+            type="file"
+            multiple
+            accept="image/*"
+            (change)="onFileChange($event)"
           />
-        </svg>
-        <span class="sr-only">Info</span>
-        <div>
-          <span class="font-medium">Info</span> Todos los productos
-          tienen imágenes asociadas.
+        </label>
+      </div>
+
+      <!-- Previsualización de imágenes -->
+      <div *ngIf="selectedImages.length > 0" class="mb-6">
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+          <div
+            *ngFor="let preview of selectedImages"
+            class="relative flex flex-col items-center"
+          >
+            <img
+              [src]="preview.previewUrl"
+              class="h-32 w-32 rounded-lg object-cover shadow-md"
+              alt="Imagen seleccionada"
+            />
+            <button
+              (click)="onRemoveImage(preview.previewUrl)"
+              type="button"
+              class="absolute right-0 top-0 z-10 p-2 text-sm text-gray-500 transition duration-200 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+              aria-label="Eliminar imagen"
+            >
+              <svg
+                class="h-4 w-4"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <span class="w-32 text-ellipsis text-sm">{{
+              preview.file.name
+            }}</span>
+            <span>{{ (preview.file.size / 1024).toFixed(0) | number }} KB</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Botón: Subir imágenes -->
-    <div class="mt-6">
-      <button
-        type="submit"
-        class="mt-4 w-full rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-lg transition duration-200 hover:bg-red-600 active:bg-red-700"
-      >
-        Subir Imágenes
-      </button>
-    </div>
+      <!-- Lista de URLs -->
+      <div *ngIf="urls.length > 0" class="mb-6">
+        <h3 class="mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200">
+          URLs de Imágenes Subidas:
+        </h3>
+        <div class="space-y-4">
+          <div
+            *ngFor="let url of urls"
+            class="flex items-center justify-between rounded-lg border border-gray-300 bg-gray-50 p-4 shadow-md dark:border-gray-700 dark:bg-gray-800"
+          >
+            <input
+              type="text"
+              [value]="url"
+              readonly
+              class="w-full rounded-md border border-gray-300 bg-gray-100 p-2 text-xs text-gray-600 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+              [title]="url"
+            />
+            <button
+              (click)="copyToClipboard(url)"
+              class="ml-4 flex items-center justify-center rounded-md bg-astronaut-500 px-4 py-2 text-sm font-semibold text-white shadow-lg transition duration-200 hover:bg-astronaut-600 active:bg-astronaut-700"
+              aria-label="Copiar URL"
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-clipboard-check"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"
+                />
+                <path
+                  d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"
+                />
+                <path d="M9 14l2 2l4 -4" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
 
-    <!-- Botón: Asociar imágenes -->
-    <div class="mt-6" *ngIf="urls.length > 0 && selectedProductoId">
-      <button
-        (click)="asociarImagenes()"
-        type="button"
-        class="w-full rounded-lg bg-green-500 px-6 py-3 text-lg font-semibold text-white shadow-lg transition duration-200 hover:bg-green-600 active:bg-green-700"
+      <!-- Selección de Producto -->
+      <div class="relative mb-6" *ngIf="productosSinImagenes.length > 0">
+        <select
+          (change)="onProductoChange($event)"
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-blue-500"
+          formControlName="productoId"
+        >
+          <option value="" disabled selected>Seleccione un producto</option>
+          <option
+            *ngFor="let producto of productosSinImagenes"
+            [value]="producto.id"
+          >
+            {{ producto.sku }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Mensaje: Todos los productos tienen imágenes -->
+      <div
+        class="mt-8 text-center text-gray-700 dark:text-gray-300"
+        *ngIf="productosSinImagenes.length === 0"
       >
-        Asociar Imágenes
-      </button>
+        <div
+          class="mb-4 flex items-center rounded-lg bg-blue-50 p-3 text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400"
+          role="alert"
+        >
+          <svg
+            class="me-3 inline h-4 w-4 shrink-0"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
+            />
+          </svg>
+          <span class="sr-only">Info</span>
+          <div>
+            <span class="font-medium">Info</span> Todos los productos tienen
+            imágenes asociadas.
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón: Subir imágenes -->
+      <div class="mt-6" *ngIf="selectedImages.length > 0 && !isUploadedDone">
+        <button
+          type="submit"
+          class="mt-4 w-full rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-lg transition duration-200 hover:bg-red-600 active:bg-red-700"
+        >
+          Subir Imágenes
+        </button>
+      </div>
+
+      <!-- Botón: Asociar imágenes -->
+      <div class="mt-6" *ngIf="urls.length > 0 && selectedProductoId">
+        <button
+          (click)="asociarImagenes()"
+          type="button"
+          class="w-full rounded-lg bg-astronaut-500 px-6 py-3 text-lg font-semibold text-white shadow-lg transition duration-200 hover:bg-astronaut-600 active:bg-astronaut-700"
+        >
+          Asociar Imágenes
+        </button>
+      </div>
     </div>
   </form>
 </div>
