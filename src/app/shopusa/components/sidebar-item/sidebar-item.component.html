@@ -1,9 +1,9 @@
 <div role="button" tabindex="0" class="mb-4">
   <button
     (click)="toggle()"
-    class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all"
+    class="flex w-full items-center rounded-lg p-3 transition-all hover:bg-monza-700 hover:text-white"
   >
-    <div class="grid place-items-center mr-4">
+    <div class="mr-4 grid place-items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -27,7 +27,7 @@
     <svg
       *ngIf="isOpen"
       xmlns="http://www.w3.org/2000/svg"
-      class="h-4 w-4 ml-auto"
+      class="ml-auto h-4 w-4"
       fill="currentColor"
       viewBox="0 0 24 24"
       aria-hidden="true"
@@ -41,7 +41,7 @@
     <svg
       *ngIf="!isOpen"
       xmlns="http://www.w3.org/2000/svg"
-      class="h-4 w-4 ml-auto"
+      class="ml-auto h-4 w-4"
       fill="currentColor"
       viewBox="0 0 24 24"
       aria-hidden="true"
@@ -50,17 +50,17 @@
     </svg>
   </button>
 
-  <div *ngIf="isOpen" class="flex flex-col space-y-2 mt-2 pl-4">
+  <div *ngIf="isOpen" class="mt-2 flex flex-col space-y-2 pl-4">
     <a
-      *ngIf="showList"
       [routerLink]="routeList"
-      class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all"
+      *ngIf="showList"
+      class="flex w-full items-center rounded-lg p-3 transition-all hover:bg-monza-700 hover:text-white"
     >
       Listado
     </a>
     <a
       [routerLink]="routeCreate"
-      class="flex items-center w-full p-3 rounded-lg hover:bg-monza-700 hover:text-white transition-all"
+      class="flex w-full items-center rounded-lg p-3 transition-all hover:bg-monza-700 hover:text-white"
     >
       {{ !showList ? "Upload" : "Crear" }}
     </a>

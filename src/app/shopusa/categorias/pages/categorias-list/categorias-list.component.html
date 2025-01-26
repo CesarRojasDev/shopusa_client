@@ -1,4 +1,4 @@
-<div class="p-12 w-full">
+<div class="w-full p-12">
   <shopusa-table-actions
     title="Categorias"
     [totalRegistros]="categorias.length"
@@ -6,39 +6,36 @@
     [exportFunction]="generateXlsx.bind(this)"
   />
   <div
-    class="relative flex flex-col w-full h-auto overflow-y-auto text-gray-700 bg-white shadow-lg rounded-lg bg-clip-border"
+    class="relative flex h-auto w-full flex-col overflow-y-auto rounded-lg bg-white bg-clip-border text-gray-700 shadow-lg"
   >
-    <table class="w-full text-center table-auto min-w-max">
+    <table class="w-full min-w-max table-auto text-center">
       <thead>
         <tr class="border-b border-slate-200 bg-monza-500 text-white">
-          <th class="p-4 text-sm font-semibold ">
+          <th class="p-4 text-sm font-semibold">
             <p class="leading-none">#</p>
           </th>
-          <th class="p-4 text-sm font-semibold ">
+          <th class="p-4 text-sm font-semibold">
             <p class="leading-none">Nombre</p>
           </th>
-          <th class="p-4 text-sm font-semibold ">Acciones</th>
+          <th class="p-4 text-sm font-semibold">Acciones</th>
         </tr>
       </thead>
-      <tbody
-        *ngFor="let categoria of categorias; let i = index"
-        class=""
-      >
-        <tr class="hover:bg-monza-50 cursor-pointer transition-colors">
-          <td class="p-4 border-b border-slate-200">
-            <p class="text-sm text-slate-800 font-medium">
+      <tbody *ngFor="let categoria of categorias; let i = index" class="">
+        <tr class="cursor-pointer transition-colors hover:bg-monza-50">
+          <td class="border-b border-slate-200 p-4">
+            <p class="text-sm font-medium text-slate-800">
               {{ i + 1 }}
             </p>
           </td>
-          <td class="p-4 border-b border-slate-200">
-            <p class="text-sm text-slate-800 font-medium">
+          <td class="border-b border-slate-200 p-4">
+            <p class="text-sm font-medium text-slate-800">
               {{ categoria.nombre }}
             </p>
           </td>
-          <td class="p-4  border-b border-slate-200 space-x-4">
+          <td class="space-x-4 border-b border-slate-200 p-4">
             <a
               [routerLink]="['/shopusa/categorias/crear', categoria.id]"
-              class="inline-block text-sm font-semibold text-slate-800 hover:text-sky-500 transition-colors"
+              class="inline-block text-sm font-semibold text-slate-800 transition-colors hover:text-sky-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +61,7 @@
             </a>
             <a
               (click)="deleteCategoria(categoria.id)"
-              class="inline-block text-sm font-semibold text-red-600 hover:text-red-800 transition-colors"
+              class="inline-block text-sm font-semibold text-red-600 transition-colors hover:text-red-800"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

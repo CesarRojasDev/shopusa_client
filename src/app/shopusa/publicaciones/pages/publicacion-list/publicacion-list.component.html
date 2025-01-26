@@ -1,44 +1,44 @@
-<div class="p-12 w-full">
+<div class="w-full p-12">
   <shopusa-table-actions
-    title="Publicaciones"
+    [exportFunction]="generateXlsx.bind(this)"
     [totalRegistros]="publicaciones.length"
     [urlNuevo]="'/shopusa/publicaciones/crear'"
-    [exportFunction]="generateXlsx.bind(this)"
+    title="Publicaciones"
   />
   <div
-    class="relative flex flex-col w-full h-auto overflow-y-auto text-gray-700 bg-white shadow-lg rounded-lg bg-clip-border"
+    class="relative flex h-auto w-full flex-col overflow-y-auto rounded-lg bg-white bg-clip-border text-gray-700 shadow-lg"
   >
-    <table class="w-full text-left table-auto min-w-max">
+    <table class="w-full min-w-max table-auto text-left">
       <thead>
         <tr class="border-b border-slate-200 bg-monza-500 text-white">
-          <th class="p-4 text-sm font-semibold text-center">
+          <th class="p-4 text-center text-sm font-semibold">
             <p class="leading-none">#</p>
           </th>
-          <th class="p-4 text-sm font-semibold text-center">
+          <th class="p-4 text-center text-sm font-semibold">
             <p class="leading-none">Imagen</p>
           </th>
-          <th class="p-4 text-sm font-semibold text-center">
+          <th class="p-4 text-center text-sm font-semibold">
             <p class="leading-none">Fecha</p>
           </th>
-          <th class="p-4 text-sm font-semibold text-center">
+          <th class="p-4 text-center text-sm font-semibold">
             <p class="leading-none">Plataforma</p>
           </th>
-          <th class="p-4 text-sm font-semibold text-center">
+          <th class="p-4 text-center text-sm font-semibold">
             <p class="leading-none">Precio (S/)</p>
           </th>
-          <th class="p-4 text-sm font-semibold text-center">
+          <th class="p-4 text-center text-sm font-semibold">
             <p class="leading-none">SKU Plataforma</p>
           </th>
-          <th class="p-4 text-sm font-semibold text-center">
+          <th class="p-4 text-center text-sm font-semibold">
             <p class="leading-none">Producto</p>
           </th>
-          <th class="p-4 text-sm font-semibold text-center">
+          <th class="p-4 text-center text-sm font-semibold">
             <p class="leading-none">SKU ShopUsa</p>
           </th>
-          <th class="p-4 text-sm font-semibold text-center">
+          <th class="p-4 text-center text-sm font-semibold">
             <p class="leading-none">Usuario</p>
           </th>
-          <th class="p-4 text-sm font-semibold text-center">Acciones</th>
+          <th class="p-4 text-center text-sm font-semibold">Acciones</th>
         </tr>
       </thead>
       <tbody
@@ -46,12 +46,12 @@
         class="text-center"
       >
         <tr class="cursor-pointer">
-          <td class="p-4 border-b border-slate-200">
-            <p class="text-sm text-slate-800 font-medium">
+          <td class="border-b border-slate-200 p-4">
+            <p class="text-sm font-medium text-slate-800">
               {{ i + 1 }}
             </p>
           </td>
-          <td class="p-4 border-b border-slate-200">
+          <td class="border-b border-slate-200 p-4">
             <picture>
               <source
                 [srcset]="
@@ -62,57 +62,57 @@
               <img
                 [src]="publicacion.producto.imagenesUrls[0]"
                 alt="{{ publicacion.producto.nombre }}"
-                class="w-28 h-28 hover:scale-110 transition ease-in-out"
+                class="h-28 w-28 transition ease-in-out hover:scale-110"
                 loading="lazy"
               />
             </picture>
           </td>
-          <td class="p-4 border-b border-slate-200">
-            <p class="text-sm text-slate-800 font-medium">
-              {{ publicacion.fechaPublicacion | date : "dd/MM/yyyy" }}
+          <td class="border-b border-slate-200 p-4">
+            <p class="text-sm font-medium text-slate-800">
+              {{ publicacion.fechaPublicacion | date: "dd/MM/yyyy" }}
             </p>
           </td>
-          <td class="p-4 border-b border-slate-200">
-            <p class="text-sm text-slate-800 font-medium">
+          <td class="border-b border-slate-200 p-4">
+            <p class="text-sm font-medium text-slate-800">
               {{ publicacion.plataforma.nombre | uppercase }}
             </p>
           </td>
-          <td class="p-4 border-b border-slate-200">
-            <p class="text-sm text-slate-800 font-medium">
-              {{ publicacion.precio | number : "1.2-2" }}
+          <td class="border-b border-slate-200 p-4">
+            <p class="text-sm font-medium text-slate-800">
+              {{ publicacion.precio | number: "1.2-2" }}
             </p>
           </td>
-          <td class="p-4 border-b border-slate-200">
-            <p class="text-sm text-slate-800 font-medium">
+          <td class="border-b border-slate-200 p-4">
+            <p class="text-sm font-medium text-slate-800">
               {{ publicacion.skuPlataforma }}
             </p>
           </td>
-          <td class="p-4 border-b border-slate-200">
+          <td class="border-b border-slate-200 p-4">
             <a
               [routerLink]="[
                 '/shopusa/productos/detalle',
-                publicacion.producto.sku
+                publicacion.producto.sku,
               ]"
             >
-              <p class="text-sm text-slate-800 font-medium">
+              <p class="text-sm font-medium text-slate-800">
                 {{ publicacion.producto.nombre }}
               </p>
             </a>
           </td>
-          <td class="p-4 border-b border-slate-200">
-            <p class="text-sm text-slate-800 font-medium">
+          <td class="border-b border-slate-200 p-4">
+            <p class="text-sm font-medium text-slate-800">
               {{ publicacion.producto.sku }}
             </p>
           </td>
-          <td class="p-4 border-b border-slate-200">
-            <p class="text-sm text-slate-800 font-medium">
+          <td class="border-b border-slate-200 p-4">
+            <p class="text-sm font-medium text-slate-800">
               {{ publicacion.usuario.username }}
             </p>
           </td>
-          <td class="p-4 text-center space-x-4">
+          <td class="space-x-4 p-4 text-center">
             <a
               [routerLink]="['/shopusa/publicaciones/crear', publicacion.id]"
-              class="inline-block text-sm font-semibold text-slate-800 hover:text-sky-500 transition-colors"
+              class="inline-block text-sm font-semibold text-slate-800 transition-colors hover:text-sky-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +138,7 @@
             </a>
             <a
               (click)="deletePublicacion(publicacion.id)"
-              class="inline-block text-sm font-semibold text-red-600 hover:text-red-800 transition-colors"
+              class="inline-block text-sm font-semibold text-red-600 transition-colors hover:text-red-800"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

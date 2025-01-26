@@ -1,13 +1,13 @@
-<div class="flex px-6 bg-white">
-  <main class="flex-1 flex flex-col p-6">
+<div class="flex bg-white px-6">
+  <main class="flex flex-1 flex-col p-6">
     <!-- Header -->
-    <header class="flex items-center justify-between mb-6">
+    <header class="mb-6 flex items-center justify-between">
       <!-- Search Bar -->
       <div class="relative">
-        <shared-search-box placeholder="Buscar..."/>
+        <shared-search-box placeholder="Buscar..." />
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="absolute w-5 h-5 top-2.5 left-3 text-gray-400"
+          class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -21,8 +21,8 @@
       <!-- User Menu -->
       <div class="relative">
         <div
-          class="flex items-center space-x-3 cursor-pointer group"
           (click)="toggleUserMenu()"
+          class="group flex cursor-pointer items-center space-x-3"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -59,14 +59,14 @@
         <!-- Dropdown -->
         <div
           *ngIf="isUserMenuOpen"
-          class="absolute right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg w-48 z-10"
+          class="absolute right-0 z-10 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg"
         >
           <ul>
             <li>
               <a
-                href="#"
-                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                 (click)="onLogout()"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                href="#"
               >
                 Cerrar sesión
               </a>

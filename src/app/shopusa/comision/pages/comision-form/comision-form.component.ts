@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Categoria } from '../../../interfaces/categoria.interface';
 import { CategoriaService } from '../../../categorias/services/categoria.service';
@@ -30,9 +30,9 @@ export class ComisionFormComponent {
   ) {
     this.myForm = this.fb.group({
       id: [null],
-      valor: [''],
-      categoriaId: [''],
-      plataformaId: [''],
+      valor: ['',[Validators.required, Validators.min(0.1)]],
+      categoriaId: ['' ,Validators.required],
+      plataformaId: ['', Validators.required],
     });
   }
   ngOnInit(): void {

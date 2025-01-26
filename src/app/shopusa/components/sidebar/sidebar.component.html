@@ -1,66 +1,66 @@
-<div class="flex h-screen shadow-md bg-white">
-  <div class="flex flex-col w-64 text-gray-500">
+<div class="flex h-screen bg-white shadow-md">
+  <div class="flex w-64 flex-col text-gray-500">
     <header class="p-8">
       <img src="shopusa-logo.webp" alt="" />
     </header>
     <nav class="flex-1 overflow-y-auto p-4">
       <shopusa-sidebar-item
-        title="Productos"
-        routeList="/shopusa/productos/listado"
-        routeCreate="/shopusa/productos/crear"
+        (click)="toggleProductos()"
         [isOpen]="isProductosOpen"
         [toggleVisibility]="toggleProductos"
-        (click)="toggleProductos()"
+        routeCreate="/shopusa/productos/crear"
+        routeList="/shopusa/productos/listado"
+        title="Productos"
       />
       <shopusa-sidebar-item
-        title="Imagenes"
-        routeCreate="/shopusa/imagenes/upload"
-        [showList]="false"
-        [isOpen]="isImagenesOpen"
-        [toggleVisibility]="toggleImagenes"
         (click)="toggleImagenes()"
+        [isOpen]="isImagenesOpen"
+        [showList]="false"
+        [toggleVisibility]="toggleImagenes"
+        routeCreate="/shopusa/imagenes/upload"
+        title="Imagenes"
       />
       <!-- Categorias Section -->
       <shopusa-sidebar-item
-        title="Categorias"
-        routeList="/shopusa/categorias/listado"
-        routeCreate="/shopusa/categorias/crear"
+        (click)="toggleCategorias()"
         [isOpen]="isCategoriasOpen"
         [toggleVisibility]="toggleCategorias"
-        (click)="toggleCategorias()"
+        routeCreate="/shopusa/categorias/crear"
+        routeList="/shopusa/categorias/listado"
+        title="Categorias"
       />
       <shopusa-sidebar-item
-        title="SubCategorias"
-        routeList="/shopusa/subcategorias/listado"
-        routeCreate="/shopusa/subcategorias/crear"
+        (click)="toggleSubcategorias()"
         [isOpen]="isSubcategoriasOpen"
         [toggleVisibility]="toggleSubcategorias"
-        (click)="toggleSubcategorias()"
+        routeCreate="/shopusa/subcategorias/crear"
+        routeList="/shopusa/subcategorias/listado"
+        title="SubCategorias"
       />
 
       <shopusa-sidebar-item
-        title="Comisiones"
-        routeList="/shopusa/comisiones/listado"
-        routeCreate="/shopusa/comisiones/crear"
+        (click)="toggleComisiones()"
         [isOpen]="isComisionesOpen"
         [toggleVisibility]="toggleComisiones"
-        (click)="toggleComisiones()"
+        routeCreate="/shopusa/comisiones/crear"
+        routeList="/shopusa/comisiones/listado"
+        title="Comisiones"
       />
       <shopusa-sidebar-item
-        title="Plataformas"
-        routeList="/shopusa/plataformas/listado"
-        routeCreate="/shopusa/plataformas/crear"
+        (click)="togglePlataformas()"
         [isOpen]="isPlataformasOpen"
         [toggleVisibility]="togglePlataformas"
-        (click)="togglePlataformas()"
+        routeCreate="/shopusa/plataformas/crear"
+        routeList="/shopusa/plataformas/listado"
+        title="Plataformas"
       />
       <shopusa-sidebar-item
-        title="Publicaciones"
-        routeList="/shopusa/publicaciones/listado"
-        routeCreate="/shopusa/publicaciones/crear"
+        (click)="togglePublicaciones()"
         [isOpen]="isPublicacionesOpen"
         [toggleVisibility]="togglePublicaciones"
-        (click)="togglePublicaciones()"
+        routeCreate="/shopusa/publicaciones/crear"
+        routeList="/shopusa/publicaciones/listado"
+        title="Publicaciones"
       />
     </nav>
   </div>

@@ -9,7 +9,6 @@ import { environment } from '../../../../environments/environment';
 export class CloudinaryService {
 
   private API_URL = `${environment.apiUrl}/cloudinary/upload`;
-
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {

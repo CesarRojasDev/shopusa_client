@@ -1,11 +1,11 @@
 <ng-template #loading>
   <div
-    class="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-monza-600"
+    class="h-20 w-20 animate-spin rounded-full border-8 border-gray-300 border-t-monza-600"
   ></div>
 </ng-template>
 
-<div class="text-center mt-24 p-6">
-  <div class="flex flex-col justify-center items-center gap-4">
+<div class="mt-24 p-6 text-center">
+  <div class="flex flex-col items-center justify-center gap-4">
     <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
       PRODUCTOS SHOPUSA
     </h1>
@@ -14,24 +14,24 @@
     </p>
     <button
       (click)="generateXlsx()"
-      class="bg-monza-500 text-white px-6 py-2 rounded-lg hover:bg-monza-600 active:bg-monza-700 transition w-full sm:w-auto"
+      class="w-full rounded-lg bg-monza-500 px-6 py-2 text-white transition hover:bg-monza-600 active:bg-monza-700 sm:w-auto"
     >
       Decargar Excel
     </button>
   </div>
 
   <div
-    class="flex flex-col sm:flex-row justify-center mt-6 items-center p-6 w-full gap-6"
+    class="mt-6 flex w-full flex-col items-center justify-center gap-6 p-6 sm:flex-row"
   >
     <!-- Filtro por subcategoría -->
-    <div class="flex flex-col sm:flex-row items-center gap-4">
+    <div class="flex flex-col items-center gap-4 sm:flex-row">
       <label class="text-gray-700" for="subcategory-select">
         Subcategoría:
       </label>
       <select
-        id="subcategory-select"
-        class="w-full sm:w-auto border-gray-300 rounded-lg border p-2 text-gray-700 focus:ring focus:ring-monza-500 focus:outline-none"
         (change)="onSubcategoryChange($event)"
+        class="w-full rounded-lg border border-gray-300 p-2 text-gray-700 focus:outline-none focus:ring focus:ring-monza-500 sm:w-auto"
+        id="subcategory-select"
       >
         <option value="todos">Todas</option>
         <option
@@ -44,14 +44,12 @@
     </div>
 
     <!-- Ordenar por -->
-    <div class="flex flex-col sm:flex-row items-center gap-4">
-      <label class="text-gray-700" for="sort-select">
-        Ordenar por:
-      </label>
+    <div class="flex flex-col items-center gap-4 sm:flex-row">
+      <label class="text-gray-700" for="sort-select"> Ordenar por: </label>
       <select
-        id="sort-select"
-        class="w-full sm:w-auto border-gray-300 rounded-lg border p-2 text-gray-700 focus:ring focus:ring-monza-500 focus:outline-none"
         (change)="onSortChange($event)"
+        class="w-full rounded-lg border border-gray-300 p-2 text-gray-700 focus:outline-none focus:ring focus:ring-monza-500 sm:w-auto"
+        id="sort-select"
       >
         <option value="nombre,asc">Nombre (Ascendente)</option>
         <option value="nombre,desc">Nombre (Descendente)</option>
@@ -62,12 +60,12 @@
       </select>
     </div>
     <!-- Buscar producto -->
-    <div class="flex w-full sm:w-auto items-center gap-4">
+    <div class="flex w-full items-center gap-4 sm:w-auto">
       <input
-        type="text"
-        class="w-full sm:w-auto rounded-lg border border-gray-300 p-3 text-gray-700 focus:ring focus:ring-monza-500 focus:outline-none"
-        placeholder="Buscar producto"
         (input)="onNameSearch($event)"
+        class="w-full rounded-lg border border-gray-300 p-3 text-gray-700 focus:outline-none focus:ring focus:ring-monza-500 sm:w-auto"
+        placeholder="Buscar producto"
+        type="text"
       />
     </div>
   </div>
@@ -75,25 +73,25 @@
   <!-- Mostrar los productos si hay, o el ng-template si no hay productos -->
   <div
     *ngIf="products && products.length === 0; else productList"
-    class="flex justify-center mt-6 items-center p-6 w-full"
+    class="mt-6 flex w-full items-center justify-center p-6"
   >
     <ng-container *ngTemplateOutlet="loading"></ng-container>
   </div>
 
   <!-- Lista de productos -->
   <ng-template #productList>
-    <div class="flex justify-center mt-6 items-center p-6 overflow-x-hidden">
+    <div class="mt-6 flex items-center justify-center overflow-x-hidden p-6">
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl w-full"
+        class="grid w-full max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
         <div
           *ngFor="let product of products"
-          class="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-full"
+          class="relative flex w-full flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
         >
           <!-- Imagen del producto -->
           <div
-            class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-full"
             [routerLink]="['/shopusa/productos/detalle', product.sku]"
+            class="relative mx-4 mt-4 h-full overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700"
           >
             <picture
               *ngIf="product.imagenesUrls && product.imagenesUrls.length > 0"
@@ -103,38 +101,40 @@
                 type="image/webp"
               />
               <img
+                [ngClass]="{ 'opacity-30 grayscale': product.stock === 0 }"
                 [src]="product.imagenesUrls[0]"
                 alt="{{ product.nombre }}"
-                class="hover:scale-110 transition ease-in-out"
-                [ngClass]="{ 'opacity-30 grayscale': product.stock === 0 }"
+                class="transition ease-in-out hover:scale-110"
                 loading="lazy"
               />
             </picture>
           </div>
           <!-- Contenido del producto -->
           <div
-            class="p-6 flex-grow rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
+            class="flex-grow rounded-lg p-6 shadow-lg transition-shadow duration-300 ease-in-out hover:shadow-xl"
           >
-            <div class="flex items-start justify-between mb-4">
-              <h4 class="scroll-m-20 text-xl font-semibold tracking-tight line-clamp-2">
+            <div class="mb-4 flex items-start justify-between">
+              <h4
+                class="line-clamp-2 scroll-m-20 text-xl font-semibold tracking-tight"
+              >
                 {{ product.nombre }}
               </h4>
             </div>
 
-            <div class="flex items-center justify-between mb-4">
+            <div class="mb-4 flex items-center justify-between">
               <p
-                class="block font-sans text-lg md:text-xl font-semibold leading-relaxed text-green-600"
+                class="block font-sans text-lg font-semibold leading-relaxed text-green-600 md:text-xl"
               >
                 ${{ product.precioUSD }}
               </p>
               <p
-                class="block font-sans text-md md:text-lg font-semibold leading-relaxed text-gray-500"
+                class="text-md block font-sans font-semibold leading-relaxed text-gray-500 md:text-lg"
               >
                 S/ {{ product.precioSoles }}
               </p>
             </div>
             <p
-              class="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80 mb-2"
+              class="mb-2 block font-sans text-sm font-normal leading-normal text-gray-700 opacity-80"
             >
               <span class="font-semibold">Color:</span> {{ product.color }}
             </p>
@@ -147,8 +147,8 @@
             <div class="mt-8">
               <a
                 [href]="product.link"
+                class="block w-full select-none rounded-lg bg-monza-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white transition-all hover:bg-monza-600 active:bg-monza-700"
                 target="_blank"
-                class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg text-white bg-monza-500 hover:bg-monza-600 active:bg-monza-700 block w-full"
               >
                 Comprar
               </a>
@@ -160,18 +160,18 @@
   </ng-template>
 
   <!-- Paginación -->
-  <div class="flex justify-center my-8">
+  <div class="my-8 flex justify-center">
     <ol class="flex items-center space-x-2">
       <!-- Botón para ir a la página anterior -->
       <li>
         <button
           (click)="previousPage()"
           [disabled]="page === 0"
-          class="w-10 h-10 flex items-center justify-center border rounded-lg text-gray-500 border-gray-300 hover:bg-monza-500 hover:text-white transition-all duration-300 disabled:opacity-50"
+          class="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 text-gray-500 transition-all duration-300 hover:bg-monza-500 hover:text-white disabled:opacity-50"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-4 h-4"
+            class="h-4 w-4"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -191,10 +191,10 @@
       >
         <button
           (click)="goToPage(p - 1)"
-          class="w-10 h-10 flex items-center justify-center border rounded-lg text-gray-600 hover:bg-monza-500 hover:text-white transition-all duration-300"
           [class.bg-monza-500]="p === page + 1"
-          [class.text-white]="p === page + 1"
           [class.border-monza-500]="p === page + 1"
+          [class.text-white]="p === page + 1"
+          class="flex h-10 w-10 items-center justify-center rounded-lg border text-gray-600 transition-all duration-300 hover:bg-monza-500 hover:text-white"
         >
           {{ p }}
         </button>
@@ -205,11 +205,11 @@
         <button
           (click)="nextPage()"
           [disabled]="page >= totalPages - 1"
-          class="w-10 h-10 flex items-center justify-center border rounded-lg text-gray-500 border-gray-300 hover:bg-monza-500 hover:text-white transition-all duration-300 disabled:opacity-50"
+          class="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 text-gray-500 transition-all duration-300 hover:bg-monza-500 hover:text-white disabled:opacity-50"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-4 h-4"
+            class="h-4 w-4"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
