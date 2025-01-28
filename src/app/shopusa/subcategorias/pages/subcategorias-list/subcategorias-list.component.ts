@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+
+import Swal from 'sweetalert2';
 
 import { Subcategoria } from '../../../interfaces/subcategoria.interface';
 import { SubcategoriaService } from '../../../subcategorias/services/subcategoria.service';
-import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-subcategorias-list',
@@ -17,8 +19,34 @@ export class SubcategoriasListComponent implements OnInit {
       .getSubCategorias()
       .subscribe((subcategorias: Subcategoria[]) => {
         this.subcategorias = subcategorias;
-        console.log(subcategorias);
       });
+  }
+  deleteSubcategoria(id: string): void {
+    Swal.fire({
+      title: 'Estas seguro?',
+      text: 'No podras deshacer esto.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.subcategoriaService
+          .deleteSubcategoria(id)
+          .subscribe((response) => {
+            console.log('Subcategoria eliminada:', response);
+            this.subcategorias = this.subcategorias.filter(
+              (subcategoria) => subcategoria.id !== id,
+            );
+          });
+        Swal.fire({
+          title: 'Eliminado!',
+          text: 'Subcategoria eliminada exitosamente.',
+          icon: 'success',
+        });
+      }
+    });
   }
   generateXlsx(): void {
     this.subcategoriaService
@@ -33,14 +61,5 @@ export class SubcategoriasListComponent implements OnInit {
         a.click();
         window.URL.revokeObjectURL(url);
       });
-  }
-
-  deleteSubcategoria(id: string): void {
-    this.subcategoriaService.deleteSubcategoria(id).subscribe((response) => {
-      console.log('Subcategoria eliminada:', response);
-      this.subcategorias = this.subcategorias.filter(
-        (subcategoria) => subcategoria.id !== id
-      );
-    });
   }
 }

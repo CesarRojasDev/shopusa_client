@@ -62,8 +62,12 @@
               <img
                 [src]="publicacion.producto.imagenesUrls[0]"
                 alt="{{ publicacion.producto.nombre }}"
-                class="h-28 w-28 transition ease-in-out hover:scale-110"
+                class="h-28 w-28 rounded-md transition ease-in-out hover:scale-110"
                 loading="lazy"
+                [routerLink]="[
+                  '/shopusa/productos/detalle',
+                  publicacion.producto.sku,
+                ]"
               />
             </picture>
           </td>

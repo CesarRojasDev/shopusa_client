@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Publicacion } from '../../../interfaces/publicacion.interface';
 import { PublicacionService } from '../../services/publicacion.service';
 import { HttpResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-publicacion-list',
@@ -17,15 +18,30 @@ export class PublicacionListComponent implements OnInit {
       .getPublicaciones()
       .subscribe((publicaciones: Publicacion[]) => {
         this.publicaciones = publicaciones;
-        console.log(publicaciones);
       });
   }
   deletePublicacion(id: string): void {
-    this.publicacionService.deletePublicacion(id).subscribe((response) => {
-      console.log('Publicacion eliminada:', response);
-      this.publicaciones = this.publicaciones.filter(
-        (publicacion) => publicacion.id !== id
-      );
+    Swal.fire({
+      title: 'Estas seguro?',
+      text: 'No podras deshacer esto.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.publicacionService.deletePublicacion(id).subscribe((response) => {
+          this.publicaciones = this.publicaciones.filter(
+            (publicacion) => publicacion.id !== id,
+          );
+        });
+        Swal.fire({
+          title: 'Eliminado!',
+          text: 'Publicacion eliminada exitosamente.',
+          icon: 'success',
+        });
+      }
     });
   }
   generateXlsx(): void {

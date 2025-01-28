@@ -3,15 +3,15 @@
   <form
     (submit)="onSubmit($event)"
     [formGroup]="myForm"
-    class="animate__animated animate__fadeInUp w-full max-w-lg rounded-xl border border-gray-300 bg-white p-8 shadow-lg dark:border-gray-700 dark:bg-gray-800"
+    class="animate__animated animate__fadeInUp w-full max-w-lg rounded-2xl bg-white p-8 shadow-lg dark:border-gray-700 dark:bg-gray-800"
   >
     <!-- Título -->
     <h1
-      class="scroll-m-20 border-b pb-2 text-center text-3xl font-semibold tracking-tight first:mt-0"
+      class="scroll-m-20 border-b pb-2 text-center text-3xl font-semibold tracking-tight first:mt-0 dark:border-none dark:text-gray-300"
     >
       Subir Imágenes
     </h1>
-    <div *ngIf="!isUploadedDone">
+    <div>
       <!-- Zona de Drag & Drop -->
       <div
         class="my-6 flex w-full items-center justify-center"
@@ -104,10 +104,13 @@
                 />
               </svg>
             </button>
-            <span class="w-32 text-ellipsis text-sm">{{
+            <span class="mt-4 px-4 w-32 text-ellipsis text-sm dark:text-gray-300 line-clamp-2">{{
               preview.file.name
             }}</span>
-            <span>{{ (preview.file.size / 1024).toFixed(0) | number }} KB</span>
+            <span class="mt-2 text-sm text-gray-500 dark:text-gray-400"
+              >{{ (preview.file.size / 1024).toFixed(0) | number }}
+              KB
+            </span>
           </div>
         </div>
       </div>
@@ -123,11 +126,11 @@
             class="flex items-center justify-between rounded-lg border border-gray-300 bg-gray-50 p-4 shadow-md dark:border-gray-700 dark:bg-gray-800"
           >
             <input
-              type="text"
-              [value]="url"
-              readonly
-              class="w-full rounded-md border border-gray-300 bg-gray-100 p-2 text-xs text-gray-600 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
               [title]="url"
+              [value]="url"
+              class="w-full rounded-md border border-gray-300 bg-gray-100 p-2 text-xs text-gray-600 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+              readonly
+              type="text"
             />
             <button
               (click)="copyToClipboard(url)"
@@ -163,6 +166,27 @@
 
       <!-- Selección de Producto -->
       <div class="relative mb-6" *ngIf="productosSinImagenes.length > 0">
+        <div
+          class="animate__animated animate__pulse mb-4 flex items-center rounded-lg bg-yellow-50 p-4 text-sm text-yellow-800 dark:bg-gray-800 dark:text-yellow-300"
+          role="alert"
+        >
+          <svg
+            class="me-3 inline h-4 w-4 shrink-0"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
+            />
+          </svg>
+          <span class="sr-only">Info</span>
+          <div>
+            <span class="font-medium">Aviso!</span> Algunos productos no tienen
+            imágenes asociadas.
+          </div>
+        </div>
         <select
           (change)="onProductoChange($event)"
           class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-blue-500"
@@ -180,7 +204,7 @@
 
       <!-- Mensaje: Todos los productos tienen imágenes -->
       <div
-        class="mt-8 text-center text-gray-700 dark:text-gray-300"
+        class="animate__animated animate__pulse mt-8 text-center text-gray-700 dark:text-gray-300"
         *ngIf="productosSinImagenes.length === 0"
       >
         <div

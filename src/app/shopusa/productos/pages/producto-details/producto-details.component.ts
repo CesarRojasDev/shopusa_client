@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs';
 import { Producto } from '../../../interfaces/producto.interface';
 import { ProductService } from '../../services/product.service';
 import { AuthService } from '../../../../auth/service/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'shopusa-producto-details',
@@ -21,7 +22,7 @@ export class ProductoDetailsComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private productService: ProductService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
   ngOnInit(): void {
     this.activateRoute.params
@@ -38,12 +39,32 @@ export class ProductoDetailsComponent implements OnInit {
   }
   onDelete(id: string): void {
     if (this.isAdmin) {
-      this.productService.deleteProduct(id).subscribe((response) => {
-        console.log('Producto eliminado:', response);
-        this.router.navigateByUrl('shopusa/productos/listado'); // Redirigir a la lista de productos
+      Swal.fire({
+        title: 'Estas seguro?',
+        text: 'No podras deshacer esto.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.productService.deleteProduct(id).subscribe((response) => {
+            this.router.navigateByUrl('shopusa/productos/listado');
+          });
+          Swal.fire({
+            title: 'Eliminado!',
+            text: 'Producto eliminado exitosamente.',
+            icon: 'success',
+          });
+        }
       });
     } else {
-      alert('Solo administradores pueden eliminar productos');
+      Swal.fire({
+        title: 'No eres administrador',
+        text: 'No podras eliminar productos',
+        icon: 'error',
+      });
     }
   }
 }

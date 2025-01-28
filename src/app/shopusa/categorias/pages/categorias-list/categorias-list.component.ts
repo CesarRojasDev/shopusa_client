@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Categoria } from '../../../interfaces/categoria.interface';
 import { CategoriaService } from '../../services/categoria.service';
 import { HttpResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-categorias-list',
@@ -22,11 +23,28 @@ export class CategoriasListComponent implements OnInit {
       });
   }
   deleteCategoria(id: string): void {
-    this.categoriaService.deleteCategoria(id).subscribe((response) => {
-      console.log('Categoria eliminada:', response);
-      this.categorias = this.categorias.filter(
-        (categoria) => categoria.id !== id
-      );
+    Swal.fire({
+      title: 'Estas seguro?',
+      text: 'No podras deshacer esto.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoriaService.deleteCategoria(id).subscribe((response) => {
+          console.log('Categoria eliminada:', response);
+          this.categorias = this.categorias.filter(
+            (categoria) => categoria.id !== id,
+          );
+        });
+        Swal.fire({
+          title: 'Eliminado!',
+          text: 'Categoria eliminada exitosamente.',
+          icon: 'success',
+        });
+      }
     });
   }
   generateXlsx(): void {
