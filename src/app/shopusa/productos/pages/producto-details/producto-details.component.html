@@ -2,7 +2,7 @@
   *ngIf="product; else loading"
   class="container mx-auto px-4 py-8 sm:px-8 lg:px-16"
 >
-  <div class="grid grid-cols-1 gap-12 bg-white p-12 lg:grid-cols-2">
+  <div class="grid grid-cols-1 gap-12 bg-white p-12 lg:grid-cols-2 dark:bg-gray-800 dark:text-gray-200">
     <!-- Product Images -->
     <div>
       <div class="relative h-auto w-full overflow-hidden">
@@ -27,7 +27,7 @@
     </div>
 
     <!-- Product Details -->
-    <div class="space-y-6 bg-white p-6">
+    <div class="space-y-6 bg-white p-6 dark:bg-gray-800 dark:text-gray-200">
       <span class="text-sm font-medium leading-none"
         >{{ product.subCategoria.categoria.nombre }} >
         {{ product.subCategoria.nombre }}</span

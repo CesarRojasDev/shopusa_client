@@ -1,4 +1,4 @@
-<div class="flex bg-white px-6">
+<div class="flex bg-white px-6 dark:bg-gray-800 dark:text-gray-300 dark:shadow-md">
   <main class="flex flex-1 flex-col p-6">
     <!-- Header -->
     <header class="mb-6 flex items-center justify-between">
@@ -40,7 +40,7 @@
             <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
             <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
           </svg>
-          <span>{{ user()?.username }}</span>
+          <span class="dark:text-gray-300">{{ user()?.username }}</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -59,17 +59,44 @@
         <!-- Dropdown -->
         <div
           *ngIf="isUserMenuOpen"
-          class="absolute right-0 z-10 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg"
+          class="absolute right-0 z-10 mt-2 w-56 rounded-2xl border border-gray-300 bg-white shadow-lg dark:border-gray-600 dark:bg-gray-800"
         >
-          <ul>
+          <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+            <!-- Cerrar sesión -->
             <li>
               <a
                 (click)="onLogout()"
-                class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                class="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
                 href="#"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="h-5 w-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6-4v8"
+                  />
+                </svg>
                 Cerrar sesión
               </a>
+            </li>
+            <!-- Cambiar tema -->
+            <li>
+              <button
+                class="flex w-full items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                (click)="toggleTheme()"
+              >
+                <span class="flex h-5 w-5 items-center justify-center">
+                  {{ isDarkMode ? "☀️" : "🌙" }}
+                </span>
+                {{ isDarkMode ? "Modo Claro" : "Modo Oscuro" }}
+              </button>
             </li>
           </ul>
         </div>
